@@ -1,0 +1,199 @@
+{
+  "version": "0.1.0",
+  "name": "assetx_rwa",
+  "address": "AsstX11111111111111111111111111111111111111",
+  "instructions": [
+    {
+      "name": "initializeMarketplace",
+      "accounts": [
+        { "name": "marketplaceConfig", "isMut": true, "isSigner": false },
+        { "name": "protocolTreasury", "isMut": false, "isSigner": false },
+        { "name": "admin", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "protocolFeeBps", "type": "u16" }
+      ]
+    },
+    {
+      "name": "createAssetOffering",
+      "accounts": [
+        { "name": "marketplaceConfig", "isMut": true, "isSigner": false },
+        { "name": "assetOffering", "isMut": true, "isSigner": false },
+        { "name": "tokenMint", "isMut": false, "isSigner": false },
+        { "name": "vaultTokenAccount", "isMut": true, "isSigner": false },
+        { "name": "paymentMint", "isMut": false, "isSigner": false },
+        { "name": "issuer", "isMut": true, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "assetId", "type": { "array": ["u8", 32] } },
+        { "name": "totalValuationUsdc", "type": "u64" },
+        { "name": "tokenPriceUsdc", "type": "u64" },
+        { "name": "totalTokenSupply", "type": "u64" },
+        { "name": "minimumInvestmentTokens", "type": "u64" },
+        { "name": "expectedYieldBps", "type": "u16" },
+        { "name": "category", "type": { "defined": "AssetCategory" } },
+        { "name": "metadataUri", "type": "string" }
+      ]
+    },
+    {
+      "name": "verifyAsset",
+      "accounts": [
+        { "name": "marketplaceConfig", "isMut": false, "isSigner": false },
+        { "name": "assetOffering", "isMut": true, "isSigner": false },
+        { "name": "admin", "isMut": false, "isSigner": true }
+      ],
+      "args": [
+        { "name": "newStatus", "type": { "defined": "VerificationStatus" } }
+      ]
+    },
+    {
+      "name": "investTokens",
+      "accounts": [
+        { "name": "marketplaceConfig", "isMut": true, "isSigner": false },
+        { "name": "assetOffering", "isMut": true, "isSigner": false },
+        { "name": "investorPosition", "isMut": true, "isSigner": false },
+        { "name": "vaultTokenAccount", "isMut": true, "isSigner": false },
+        { "name": "investorTokenAccount", "isMut": true, "isSigner": false },
+        { "name": "investorUsdcAccount", "isMut": true, "isSigner": false },
+        { "name": "issuerUsdcAccount", "isMut": true, "isSigner": false },
+        { "name": "protocolTreasury", "isMut": true, "isSigner": false },
+        { "name": "investor", "isMut": true, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "tokenQuantity", "type": "u64" }
+      ]
+    },
+    {
+      "name": "distributeYield",
+      "accounts": [
+        { "name": "assetOffering", "isMut": true, "isSigner": false },
+        { "name": "issuerUsdcAccount", "isMut": true, "isSigner": false },
+        { "name": "dividendVault", "isMut": true, "isSigner": false },
+        { "name": "paymentMint", "isMut": false, "isSigner": false },
+        { "name": "issuer", "isMut": false, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "distributionAmountUsdc", "type": "u64" }
+      ]
+    },
+    {
+      "name": "claimYield",
+      "accounts": [
+        { "name": "assetOffering", "isMut": false, "isSigner": false },
+        { "name": "investorPosition", "isMut": true, "isSigner": false },
+        { "name": "dividendVault", "isMut": true, "isSigner": false },
+        { "name": "investorUsdcAccount", "isMut": true, "isSigner": false },
+        { "name": "investor", "isMut": false, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MarketplaceConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "admin", "type": "publicKey" },
+          { "name": "protocolTreasury", "type": "publicKey" },
+          { "name": "protocolFeeBps", "type": "u16" },
+          { "name": "totalAssets", "type": "u64" },
+          { "name": "totalVolumeUsdc", "type": "u64" },
+          { "name": "isPaused", "type": "bool" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "AssetOffering",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "assetId", "type": { "array": ["u8", 32] } },
+          { "name": "issuer", "type": "publicKey" },
+          { "name": "tokenMint", "type": "publicKey" },
+          { "name": "vaultTokenAccount", "type": "publicKey" },
+          { "name": "paymentMint", "type": "publicKey" },
+          { "name": "totalValuationUsdc", "type": "u64" },
+          { "name": "tokenPriceUsdc", "type": "u64" },
+          { "name": "totalTokenSupply", "type": "u64" },
+          { "name": "availableTokens", "type": "u64" },
+          { "name": "minimumInvestmentTokens", "type": "u64" },
+          { "name": "expectedYieldBps", "type": "u16" },
+          { "name": "category", "type": { "defined": "AssetCategory" } },
+          { "name": "verificationStatus", "type": { "defined": "VerificationStatus" } },
+          { "name": "metadataUri", "type": "string" },
+          { "name": "accumulatedYieldPerToken", "type": "u128" },
+          { "name": "totalYieldDistributedUsdc", "type": "u64" },
+          { "name": "listingTimestamp", "type": "i64" },
+          { "name": "bump", "type": "u8" },
+          { "name": "vaultBump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "InvestorPosition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "investor", "type": "publicKey" },
+          { "name": "assetOffering", "type": "publicKey" },
+          { "name": "tokensHeld", "type": "u64" },
+          { "name": "lastAccumulatedYieldIndex", "type": "u128" },
+          { "name": "unclaimedYieldUsdc", "type": "u64" },
+          { "name": "totalYieldClaimedUsdc", "type": "u64" },
+          { "name": "totalInvestedUsdc", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AssetCategory",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          { "name": "Commercial" },
+          { "name": "Residential" },
+          { "name": "Industrial" },
+          { "name": "Gold" },
+          { "name": "Infrastructure" },
+          { "name": "RenewableEnergy" }
+        ]
+      }
+    },
+    {
+      "name": "VerificationStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          { "name": "PendingVerification" },
+          { "name": "Approved" },
+          { "name": "Rejected" },
+          { "name": "Suspended" }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "MarketplacePaused", "msg": "Marketplace trading is currently paused by admin circuit breaker." },
+    { "code": 6001, "name": "UnauthorizedAdmin", "msg": "Signer is not authorized to execute this compliance command." },
+    { "code": 6002, "name": "AssetNotApproved", "msg": "Asset is not in Approved status for investment." },
+    { "code": 6003, "name": "InsufficientTokenSupply", "msg": "Requested quantity exceeds available tokens." },
+    { "code": 6004, "name": "BelowMinimumInvestment", "msg": "Order does not meet the minimum token investment ticket." },
+    { "code": 6005, "name": "MathOverflow", "msg": "Calculation overflow occurred." },
+    { "code": 6006, "name": "ZeroTokensHeld", "msg": "No tokens available in position for claiming yield." },
+    { "code": 6007, "name": "NoYieldToClaim", "msg": "No accumulated dividend yield available to claim." },
+    { "code": 6008, "name": "UriTooLong", "msg": "Asset metadata URI exceeds allocated capacity." },
+    { "code": 6009, "name": "UnauthorizedIssuer", "msg": "Signer is not the authorized asset sponsor." }
+  ]
+}
