@@ -29,8 +29,8 @@ export const HowItWorksPage: React.FC = () => {
     },
     {
       num: '03',
-      title: 'Solana Anchor Tokenization & Transfer Hooks',
-      desc: 'Equity in the SPV is tokenized using Solana Token-2022 with Transfer Hooks on Solana Testnet. Smart contract instructions executed via Rust Anchor programs enforce instant compliance, zero-custody vault escrow, and atomic settlement.',
+      title: 'Lahara Anchor Tokenization & Transfer Hooks',
+      desc: 'Equity in the SPV is tokenized using Lahara Token-2022 with Transfer Hooks on Lahara Testnet. Smart contract instructions executed via Rust Anchor programs enforce instant compliance, zero-custody vault escrow, and atomic settlement.',
       icon: <Cpu className="w-6 h-6 text-cyan-400" />,
     },
     {

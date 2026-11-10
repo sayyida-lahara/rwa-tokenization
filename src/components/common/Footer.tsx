@@ -37,7 +37,7 @@ export const Footer: React.FC = () => {
                 </span>
               </Link>
               <p className="text-xs text-gray-400 max-w-sm leading-relaxed">
-                Institutional protocol for Real World Asset tokenization on Solana. Fractional
+                Institutional protocol for Real World Asset tokenization on Lahara. Fractional
                 ownership in commercial tech parks, sea-facing residences, Swiss gold vaults, and solar infrastructure.
               </p>
 
@@ -133,15 +133,15 @@ export const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Solana Architecture & Blockchain */}
+            {/* Lahara Architecture & Blockchain */}
             <div className="space-y-2.5">
               <h4 className="text-xs font-semibold text-white uppercase tracking-wider font-display">
-                Solana Architecture
+                Lahara Architecture
               </h4>
               <ul className="space-y-2 text-xs">
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-white font-medium">Solana Testnet</span>
+                  <span className="text-white font-medium">Lahara Testnet</span>
                 </li>
                 <li className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
@@ -173,7 +173,7 @@ export const Footer: React.FC = () => {
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>
-                AssetX Solana RWA Protocol. Built on Solana Testnet with Anchor Rust smart contracts. All assets and token balances are simulated for institutional demonstration.
+                AssetX Lahara RWA Protocol. Built on Lahara Testnet with Anchor Rust smart contracts. All assets and token balances are simulated for institutional demonstration.
               </span>
             </div>
             <p>© 2026 AssetX Protocol Ltd. All rights reserved.</p>

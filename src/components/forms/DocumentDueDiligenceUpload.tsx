@@ -356,7 +356,7 @@ export const DocumentDueDiligenceUpload: React.FC<DocumentDueDiligenceUploadProp
             </h3>
             <p className="text-xs text-gray-400 mt-1 max-w-md mx-auto">
               Drop PDFs, deeds, audit statements, or high-res photography. Files are hashed and
-              stamped for institutional Solana smart contract audit.
+              stamped for institutional Lahara smart contract audit.
             </p>
           </div>
 

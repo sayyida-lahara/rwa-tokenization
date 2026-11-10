@@ -32,7 +32,7 @@ export const HomePage: React.FC = () => {
   const faqs = [
     {
       q: 'How does fractional Real World Asset (RWA) tokenization work?',
-      a: 'Each real-world property or physical commodity is held by an independent Special Purpose Vehicle (SPV) or legal trust. The equity or debt of that SPV is digitally represented by Solana Token-2022 security tokens via our Anchor smart contract on Solana Testnet, allowing investors to purchase fractional slices with instant on-chain settlement.',
+      a: 'Each real-world property or physical commodity is held by an independent Special Purpose Vehicle (SPV) or legal trust. The equity or debt of that SPV is digitally represented by Lahara Token-2022 security tokens via our Anchor smart contract on Lahara Testnet, allowing investors to purchase fractional slices with instant on-chain settlement.',
     },
     {
       q: 'Are the underlying properties legally registered and insured?',
@@ -107,7 +107,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Lock className="w-4 h-4 text-cyan-400" />
-                  <span>Solana Token-2022 Transfer Hooks</span>
+                  <span>Lahara Token-2022 Transfer Hooks</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-emerald-400" />
@@ -400,7 +400,7 @@ export const HomePage: React.FC = () => {
                 <CheckCircle2 className="w-5 h-5 text-purple-400" />
                 <h4 className="text-sm font-semibold text-white">Automated Escrow Settlement</h4>
                 <p className="text-xs text-gray-400 leading-relaxed">
-                  Smart contract-governed escrow and title transfers executed programmatically on Solana.
+                  Smart contract-governed escrow and title transfers executed programmatically on Lahara.
                 </p>
               </div>
 

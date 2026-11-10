@@ -140,10 +140,10 @@ export const MarketplaceManagementPage: React.FC = () => {
                 onChange={(e) => setSettlementNetwork(e.target.value)}
                 className="w-full bg-[#0F1626] border border-[#22304E] rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-cyan-400"
               >
-                <option value="Solana Mainnet Beta">Solana Mainnet Beta</option>
-                <option value="Solana Testnet">Solana Testnet</option>
-                <option value="Solana Devnet">Solana Devnet</option>
-                <option value="Solana Localnet">Solana Localnet</option>
+                <option value="Lahara Mainnet Beta">Lahara Mainnet Beta</option>
+                <option value="Lahara Testnet">Lahara Testnet</option>
+                <option value="Lahara Devnet">Lahara Devnet</option>
+                <option value="Lahara Localnet">Lahara Localnet</option>
               </select>
             </div>
 

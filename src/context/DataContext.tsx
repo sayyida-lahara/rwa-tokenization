@@ -81,8 +81,8 @@ interface DataContextType extends AppBootstrap {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 function networkLabel(cluster: SolanaCluster): string {
-  if (cluster === 'mainnet-beta') return 'Solana Mainnet Beta';
-  return `Solana ${cluster.charAt(0).toUpperCase()}${cluster.slice(1)}`;
+  if (cluster === 'mainnet-beta') return 'Lahara Mainnet Beta';
+  return `Lahara ${cluster.charAt(0).toUpperCase()}${cluster.slice(1)}`;
 }
 
 function replaceById<T extends { id: string }>(items: T[], next: T): T[] {

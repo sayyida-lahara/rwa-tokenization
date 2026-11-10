@@ -114,16 +114,16 @@ export const ProfileSettingsPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold text-white font-display flex items-center gap-2">
               <Wallet className="w-4 h-4 text-cyan-400" />
-              <span>Connected Solana Custody Address (Base58)</span>
+              <span>Connected Lahara Custody Address (Base58)</span>
             </h3>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 uppercase">
-              Solana {wallet.cluster || 'Testnet'}
+              Lahara {wallet.cluster || 'Testnet'}
             </span>
           </div>
 
           <div className="p-3.5 rounded-xl bg-[#0F1626] border border-[#1E293B] flex items-center justify-between text-xs">
             <div>
-              <span className="text-gray-400 block text-[11px]">Primary Solana Base58 Public Key</span>
+              <span className="text-gray-400 block text-[11px]">Primary Lahara Base58 Public Key</span>
               <span className="font-mono text-cyan-300 font-bold select-all break-all">
                 {wallet.address || user.walletAddress}
               </span>

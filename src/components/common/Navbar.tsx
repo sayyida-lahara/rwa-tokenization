@@ -123,14 +123,14 @@ export const Navbar: React.FC = () => {
               <span className="capitalize">{role}</span>
             </button>
 
-            {/* Solana Anchor Program Inspector Button */}
+            {/* Lahara Anchor Program Inspector Button */}
             <button
               onClick={() => setIsProgramInspectorOpen(true)}
               className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-xs font-mono text-purple-300 hover:text-white transition-all shadow-sm"
-              title="Inspect Solana Anchor Program, IDL, PDAs & Rust contracts"
+              title="Inspect Lahara Anchor Program, IDL, PDAs & Rust contracts"
             >
               <Terminal className="w-3.5 h-3.5 text-purple-400" />
-              <span>Solana Testnet</span>
+              <span>Lahara Testnet</span>
             </button>
 
             {/* Wallet Status / Connect Pill */}
@@ -197,7 +197,7 @@ export const Navbar: React.FC = () => {
                     className="w-full flex items-center gap-2 px-3 py-2 text-xs rounded-xl text-purple-300 hover:bg-purple-500/10 transition-colors font-medium text-left"
                   >
                     <Terminal className="w-4 h-4 text-purple-400" />
-                    <span>Solana Anchor Inspector</span>
+                    <span>Lahara Anchor Inspector</span>
                   </button>
 
                   <div className="border-t border-[#1E293B] pt-1 mt-1">

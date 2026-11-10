@@ -539,7 +539,7 @@ export const TokenizeAssetWizard: React.FC = () => {
                 <div>
                   <span className="text-gray-400 block">Blockchain Deployment</span>
                   <span className="text-purple-300 font-mono text-xs font-semibold">
-                    Solana Testnet (Token-2022)
+                    Lahara Testnet (Token-2022)
                   </span>
                 </div>
                 <div>

@@ -15,7 +15,7 @@ export const INITIAL_ASSETS: Asset[] = [
       flag: '🇮🇳',
     },
     description:
-      'A 12-story state-of-the-art corporate tower situated in the heart of Bangalore’s Silicon Corridor. LEED Platinum certified with 98% occupancy across Fortune 500 tenants under 9-year triple-net leases. Built on Solana Anchor with SPL Token-2022 Transfer Hooks for institutional regulatory compliance.',
+      'A 12-story state-of-the-art corporate tower situated in the heart of Bangalore’s Silicon Corridor. LEED Platinum certified with 98% occupancy across Fortune 500 tenants under 9-year triple-net leases. Built on Lahara Anchor with SPL Token-2022 Transfer Hooks for institutional regulatory compliance.',
     highlights: [
       'LEED Platinum Certified Green Building',
       'Long-term triple-net lease with 5-year lock-in remaining',
@@ -44,7 +44,7 @@ export const INITIAL_ASSETS: Asset[] = [
       structure: 'Special Purpose Vehicle (SPV) with Delaware LLC feeder',
       registrationNumber: 'CIN-U70100KA2024PTC189201',
       country: 'India / Delaware SPV',
-      supportingInfo: 'Custody held with Apex Financial Trust. Tokenized equity backed by registered title deed on Solana.',
+      supportingInfo: 'Custody held with Apex Financial Trust. Tokenized equity backed by registered title deed on Lahara.',
     },
     specifications: {
       'Gross Leasable Area': '385,000 sq ft',
@@ -72,13 +72,13 @@ export const INITIAL_ASSETS: Asset[] = [
     blockchainInfo: {
       tokenSymbol: 'BLR-COMM-X',
       tokenStandard: 'Token-2022 (Transfer Hooks)',
-      network: 'Solana',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'BLR9XvKqVdPmN4p2S6yY8zR1tT7uW3xQ9mK5hL2bA4c',
       vaultPda: 'TknVltBLR9XvKqVdPmN4p2S6yY8zR1tT7uW3xQ9mK5h',
-      complianceAuditor: 'Securitize ONCHAINID / Solana Token-2022',
-      treasuryCustodian: 'BitGo Institutional Trust (Solana Custody)',
+      complianceAuditor: 'Securitize ONCHAINID / Lahara Token-2022',
+      treasuryCustodian: 'BitGo Institutional Trust (Lahara Custody)',
     },
     valuationHistory: [
       { date: '2024 Q1', valuation: 21500000, tokenPrice: 43.8 },
@@ -114,7 +114,7 @@ export const INITIAL_ASSETS: Asset[] = [
       'Unobstructed panoramic Arabian Sea views',
       'Serviced by Marriott Luxury Living division',
       'Strong historical capital appreciation (9.2% YoY)',
-      'Fractional ownership starting at only $250 on Solana',
+      'Fractional ownership starting at only $250 on Lahara',
     ],
     images: [
       'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
@@ -164,13 +164,13 @@ export const INITIAL_ASSETS: Asset[] = [
     blockchainInfo: {
       tokenSymbol: 'MUM-LUX-RES',
       tokenStandard: 'Token-2022 (Transfer Hooks)',
-      network: 'Solana',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'MUM38aBcDeFgHiJkLmNoPqRsTuVwXyZ123456789abc',
       vaultPda: 'TknVltMUM38aBcDeFgHiJkLmNoPqRsTuVwXyZ123456',
       complianceAuditor: 'KPMG Digital Asset Services',
-      treasuryCustodian: 'Standard Chartered Digital Assets (Solana)',
+      treasuryCustodian: 'Standard Chartered Digital Assets (Lahara)',
     },
     valuationHistory: [
       { date: '2024 Q2', valuation: 34000000, tokenPrice: 223.6 },
@@ -205,7 +205,7 @@ export const INITIAL_ASSETS: Asset[] = [
       '100% leased to AA-rated international financial institutions',
       'IGBC Platinum Green Building rating',
       'Escalation clause: 12% rental increase every 3 years',
-      'Instant settlement via Solana Anchor program',
+      'Instant settlement via Lahara Anchor program',
     ],
     images: [
       'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=80',
@@ -250,14 +250,14 @@ export const INITIAL_ASSETS: Asset[] = [
     ],
     blockchainInfo: {
       tokenSymbol: 'HYD-OFF-A',
-      tokenStandard: 'Solana SPL Token',
-      network: 'Solana',
+      tokenStandard: 'Lahara SPL Token',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'HYD98xPzQwErTyUiOpAsDfGhJkLzXcVbNm123456789',
       vaultPda: 'TknVltHYD98xPzQwErTyUiOpAsDfGhJkLzXcVbNm123',
       complianceAuditor: 'PwC Blockchain Trust',
-      treasuryCustodian: 'Anchorage Digital (Solana)',
+      treasuryCustodian: 'Anchorage Digital (Lahara)',
     },
     valuationHistory: [
       { date: '2024 Q3', valuation: 18200000, tokenPrice: 91.9 },
@@ -291,7 +291,7 @@ export const INITIAL_ASSETS: Asset[] = [
       'Strategic arterial corridor connected to Chennai Sea Port',
       'Multi-temperature climate controlled storage',
       '10-year master lease with DHL Supply Chain',
-      '12.1% net yield distributed via Solana Program',
+      '12.1% net yield distributed via Lahara Program',
     ],
     images: [
       'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
@@ -336,13 +336,13 @@ export const INITIAL_ASSETS: Asset[] = [
     ],
     blockchainInfo: {
       tokenSymbol: 'CHN-LOGIS-1',
-      tokenStandard: 'Solana SPL Token',
-      network: 'Solana',
+      tokenStandard: 'Lahara SPL Token',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'CHN14xZqYwErTyUiOpAsDfGhJkLzXcVbNm987654321',
       vaultPda: 'TknVltCHN14xZqYwErTyUiOpAsDfGhJkLzXcVbNm987',
-      complianceAuditor: 'CertiK Solana Program Audit',
+      complianceAuditor: 'CertiK Lahara Program Audit',
       treasuryCustodian: 'BNY Mellon Digital',
     },
     valuationHistory: [
@@ -422,12 +422,12 @@ export const INITIAL_ASSETS: Asset[] = [
     blockchainInfo: {
       tokenSymbol: 'KCH-VILLA-1',
       tokenStandard: 'Token-2022 (Transfer Hooks)',
-      network: 'Solana',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'KCH16xLpMnBvCxZqWeRtYuIoPasDfGhJkLzXcVbNm12',
       vaultPda: 'TknVltKCH16xLpMnBvCxZqWeRtYuIoPasDfGhJkLzXc',
-      complianceAuditor: 'ConsenSys Diligence (Solana)',
+      complianceAuditor: 'ConsenSys Diligence (Lahara)',
       treasuryCustodian: 'Apex Custodial Services',
     },
     valuationHistory: [
@@ -455,12 +455,12 @@ export const INITIAL_ASSETS: Asset[] = [
       flag: '🇨🇭',
     },
     description:
-      'Institutional vault reserve backed 1:1 by LBMA Good Delivery 400 oz gold bars (99.99% purity). Stored in an underground nuclear-bunker facility in Zurich, Switzerland. Independently audited quarterly with real-time Chainlink Proof of Reserve on Solana.',
+      'Institutional vault reserve backed 1:1 by LBMA Good Delivery 400 oz gold bars (99.99% purity). Stored in an underground nuclear-bunker facility in Zurich, Switzerland. Independently audited quarterly with real-time Chainlink Proof of Reserve on Lahara.',
     highlights: [
       '100% physically backed by audited LBMA bars',
       'Direct redemption into physical gold bars permitted (min 1 kg)',
       'Underground Swiss bank vault storage with Lloyd’s of London insurance',
-      'Instant settlement & zero counterparty risk on Solana',
+      'Instant settlement & zero counterparty risk on Lahara',
     ],
     images: [
       'https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=1200&q=80',
@@ -508,12 +508,12 @@ export const INITIAL_ASSETS: Asset[] = [
     blockchainInfo: {
       tokenSymbol: 'SWISS-GLD-X',
       tokenStandard: 'Token-2022 (Transfer Hooks)',
-      network: 'Solana',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'GLD50xSwissVaultLoomisZurichLBMA9999Purity11',
       vaultPda: 'TknVltGLD50xSwissVaultLoomisZurichLBMA9999Pu',
-      complianceAuditor: 'Chainlink Proof of Reserve (PoR on Solana)',
+      complianceAuditor: 'Chainlink Proof of Reserve (PoR on Lahara)',
       treasuryCustodian: 'Loomis International AG (Zurich)',
     },
     valuationHistory: [
@@ -548,7 +548,7 @@ export const INITIAL_ASSETS: Asset[] = [
       '25-Year binding Power Purchase Agreement with SECI (Govt of India)',
       'Bifacial solar panels with automated robotic waterless cleaning',
       'Generates 285 million kWh clean energy per year',
-      'Generates certified Carbon Credits (VER) registered on Solana',
+      'Generates certified Carbon Credits (VER) registered on Lahara',
     ],
     images: [
       'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
@@ -595,8 +595,8 @@ export const INITIAL_ASSETS: Asset[] = [
     ],
     blockchainInfo: {
       tokenSymbol: 'SOLAR-RAJ-150',
-      tokenStandard: 'Solana SPL Token',
-      network: 'Solana',
+      tokenStandard: 'Lahara SPL Token',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'SOLAR150BhadlaTharDesertGreenPPAMint11111111',
@@ -680,8 +680,8 @@ export const INITIAL_ASSETS: Asset[] = [
     ],
     blockchainInfo: {
       tokenSymbol: 'JNPT-PORT-X',
-      tokenStandard: 'Solana SPL Token',
-      network: 'Solana',
+      tokenStandard: 'Lahara SPL Token',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'JNPT45xPortMaritimeLogisticsContainerMint11',
@@ -763,8 +763,8 @@ export const INITIAL_ASSETS: Asset[] = [
     ],
     blockchainInfo: {
       tokenSymbol: 'PUNE-BANER-1',
-      tokenStandard: 'Solana SPL Token',
-      network: 'Solana',
+      tokenStandard: 'Lahara SPL Token',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'PUN21xBanerHighStreetRetailOfficeCluster11',
@@ -802,7 +802,7 @@ export const INITIAL_ASSETS: Asset[] = [
       'Prime diplomatic enclave address with zero vacant inventory in the zone',
       'Diplomatic lease tenancies backed by respective sovereign missions',
       'Ultra-high capital appreciation corridor in Lutyens-adjacent Delhi',
-      '8.6% baseline yield on Solana',
+      '8.6% baseline yield on Lahara',
     ],
     images: [
       'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
@@ -848,7 +848,7 @@ export const INITIAL_ASSETS: Asset[] = [
     blockchainInfo: {
       tokenSymbol: 'DEL-DIPLO-RES',
       tokenStandard: 'Token-2022 (Transfer Hooks)',
-      network: 'Solana',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'DEL27xDiplomaticChanakyapuriTowerMint1111111',
@@ -931,13 +931,13 @@ export const INITIAL_ASSETS: Asset[] = [
     ],
     blockchainInfo: {
       tokenSymbol: 'AHM-IND-PARK',
-      tokenStandard: 'Solana SPL Token',
-      network: 'Solana',
+      tokenStandard: 'Lahara SPL Token',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'AHM18xSanandEVManufacturingIndustrialPark1',
       vaultPda: 'TknVltAHM18xSanandEVManufacturingIndustrialP',
-      complianceAuditor: 'Deloitte Assurance (Solana)',
+      complianceAuditor: 'Deloitte Assurance (Lahara)',
       treasuryCustodian: 'BitGo Trust',
     },
     valuationHistory: [
@@ -1017,13 +1017,13 @@ export const INITIAL_ASSETS: Asset[] = [
     blockchainInfo: {
       tokenSymbol: 'WIND-BESS-220',
       tokenStandard: 'Token-2022 (Transfer Hooks)',
-      network: 'Solana',
+      network: 'Lahara',
       cluster: 'testnet',
       programId: 'AsstX11111111111111111111111111111111111111',
       tokenMint: 'WND48xMuppandalHybridWindStorageTesla2XL1',
       vaultPda: 'TknVltWND48xMuppandalHybridWindStorageTesla2',
       complianceAuditor: 'TÜV SÜD Green Asset Certification',
-      treasuryCustodian: 'Coinbase Custody Trust (Solana)',
+      treasuryCustodian: 'Coinbase Custody Trust (Lahara)',
     },
     valuationHistory: [
       { date: '2024 Q2', valuation: 42000000, tokenPrice: 87.5 },

@@ -11,6 +11,7 @@ export type VerificationStatus = 'Approved' | 'Pending Verification' | 'Rejected
 export type InvestmentStatus = 'Active' | 'Fully Funded' | 'Upcoming' | 'Closed';
 
 export type SolanaCluster = 'mainnet-beta' | 'devnet' | 'testnet' | 'localnet';
+export type LaharaCluster = SolanaCluster;
 
 export interface LocationInfo {
   address: string;
@@ -49,7 +50,7 @@ export interface DocumentItem {
 
 export interface BlockchainInfo {
   tokenSymbol: string;
-  tokenStandard: 'Solana SPL Token' | 'Token-2022 (Transfer Hooks)';
+  tokenStandard: 'Lahara SPL Token' | 'Solana SPL Token' | 'Token-2022 (Transfer Hooks)';
   network: string;
   cluster: SolanaCluster;
   programId: string;

@@ -20,7 +20,7 @@ function getTestPages(baseUrl: string): PageTestConfig[] {
     assertions: [
       { label: 'Hero Headline', pattern: /Own a Piece of the/i },
       { label: 'Brand Name', pattern: /Asset/i },
-      { label: 'Solana Testnet Technology Banner', pattern: /Solana Testnet/i },
+      { label: 'Lahara Testnet Technology Banner', pattern: /Lahara Testnet/i },
       { label: 'Platform Statistics', pattern: /Total Asset Value|Total Assets Listed/i },
       { label: 'Action Buttons', pattern: /Explore Assets/i },
       { label: 'How It Works Preview', pattern: /How It Works/i },
@@ -74,13 +74,13 @@ function getTestPages(baseUrl: string): PageTestConfig[] {
     ],
   },
   {
-    name: 'How It Works (Solana Architecture & SPV Flow)',
+    name: 'How It Works (Lahara Architecture & SPV Flow)',
     url: `${baseUrl}/how-it-works`,
     assertions: [
       { label: 'Headline', pattern: /How Real World Asset Tokenization Works/i },
       { label: 'Stage 1 Due Diligence', pattern: /Asset Sourcing/i },
       { label: 'Stage 2 SPV Structure', pattern: /SPV Structuring/i },
-      { label: 'Stage 3 Solana Anchor Tokenization', pattern: /Solana Anchor Tokenization/i },
+      { label: 'Stage 3 Lahara Anchor Tokenization', pattern: /Lahara Anchor Tokenization/i },
       { label: 'Stage 5 Automated Settlement', pattern: /Automated.*Settlement|Secondary Settlement/i },
     ],
   },
@@ -116,8 +116,8 @@ function getTestPages(baseUrl: string): PageTestConfig[] {
     url: `${baseUrl}/investor/transactions`,
     assertions: [
       { label: 'Transaction Ledger Header', pattern: /Transaction History|Transactions/i },
-      { label: 'Solana Signature Column', pattern: /Solana Tx Signature|Signature/i },
-      { label: 'Testnet Cluster Labels', pattern: /testnet|Solana/i },
+      { label: 'Lahara Signature Column', pattern: /Lahara Tx Signature|Signature/i },
+      { label: 'Testnet Cluster Labels', pattern: /testnet|Lahara/i },
     ],
   },
   {
@@ -128,11 +128,11 @@ function getTestPages(baseUrl: string): PageTestConfig[] {
     ],
   },
   {
-    name: 'Investor Settings & Solana Keypair',
+    name: 'Investor Settings & Lahara Keypair',
     url: `${baseUrl}/investor/settings`,
     assertions: [
       { label: 'Settings Header', pattern: /Profile.*Security Settings/i },
-      { label: 'Solana Custody Key', pattern: /Connected Solana Custody Address|Primary Solana Base58/i },
+      { label: 'Lahara Custody Key', pattern: /Connected Lahara Custody Address|Primary Lahara Base58/i },
     ],
   },
 
@@ -152,7 +152,7 @@ function getTestPages(baseUrl: string): PageTestConfig[] {
     assertions: [
       { label: 'Wizard Header', pattern: /Tokenize a Real World Asset|Basic Information/i },
       { label: 'Form Input Fields', pattern: /Asset Name|Category|Valuation/i },
-      { label: 'Solana Anchor Deployment', pattern: /Solana|Anchor/i },
+      { label: 'Lahara Anchor Deployment', pattern: /Lahara|Anchor/i },
     ],
   },
   {

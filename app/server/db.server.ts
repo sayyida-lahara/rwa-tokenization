@@ -7,13 +7,13 @@ import { INITIAL_USERS } from '../../src/data/mockUsers';
 import { INITIAL_HOLDINGS, INITIAL_TRANSACTIONS } from '../../src/data/mockTransactions';
 import type {
   MarketplaceSettings,
-  SolanaCluster,
+  LaharaCluster,
   UserPreferences,
   WalletState,
 } from '../../src/types';
 
 /** Bump this when the seed shape changes so existing demo databases are refreshed. */
-const SEED_VERSION = '2026-11-rwa-sqlite-v1';
+const SEED_VERSION = '2026-11-rwa-sqlite-v2';
 
 export const DEFAULT_WALLET: WalletState = {
   isConnected: true,
@@ -27,8 +27,8 @@ export const DEFAULT_WALLET: WalletState = {
 export const DEFAULT_MARKETPLACE_SETTINGS: MarketplaceSettings = {
   feePercent: 0.5,
   minOfferingValuation: 1_000_000,
-  oracleProvider: 'Solana Token-2022 Compliance Oracle',
-  settlementNetwork: 'Solana Mainnet Beta',
+  oracleProvider: 'Lahara Token-2022 Compliance Oracle',
+  settlementNetwork: 'Lahara Mainnet Beta',
   isTradingPaused: false,
 };
 
@@ -40,10 +40,10 @@ export const DEFAULT_USER_PREFERENCES: UserPreferences = {
 export const DEFAULT_WATCHLIST = ['asset-1', 'asset-2', 'asset-6'];
 
 export const SETTLEMENT_NETWORKS = [
-  'Solana Mainnet Beta',
-  'Solana Devnet',
-  'Solana Testnet',
-  'Solana Localnet',
+  'Lahara Mainnet Beta',
+  'Lahara Devnet',
+  'Lahara Testnet',
+  'Lahara Localnet',
 ] as const;
 
 let db: DatabaseSync | null = null;
@@ -269,4 +269,4 @@ export function parseJson<T>(value: string): T {
   return JSON.parse(value) as T;
 }
 
-export type { MarketplaceSettings, UserPreferences, SolanaCluster, WalletState };
+export type { MarketplaceSettings, UserPreferences, LaharaCluster, LaharaCluster as SolanaCluster, WalletState };

@@ -13,7 +13,7 @@ export const WalletStatusPill: React.FC = () => {
         className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-xs shadow-lg shadow-cyan-500/20 transition-all active:scale-[0.98] border border-cyan-400/30"
       >
         <Wallet className="w-3.5 h-3.5" />
-        <span>Connect Solana Wallet</span>
+        <span>Connect Lahara Wallet</span>
       </button>
     );
   }
@@ -22,7 +22,7 @@ export const WalletStatusPill: React.FC = () => {
     <button
       onClick={openWalletModal}
       className="flex items-center gap-2 p-1 pl-2.5 pr-2 rounded-xl bg-[#151D30] hover:bg-[#1C2640] border border-[#22304E] hover:border-cyan-500/40 text-xs transition-all shadow-md group"
-      title={`Connected on Solana ${wallet.cluster.toUpperCase()} with ${wallet.balanceSOL.toFixed(2)} SOL`}
+      title={`Connected on Lahara ${wallet.cluster.toUpperCase()} with ${wallet.balanceSOL.toFixed(2)} SOL`}
     >
       {/* Cluster indicator pill */}
       <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 uppercase font-semibold">

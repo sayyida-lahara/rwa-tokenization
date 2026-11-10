@@ -79,7 +79,7 @@ export const AdminDashboardPage: React.FC = () => {
         <StatCard
           label="Total Token Supply"
           value={formatNumber(totalTokens)}
-          subValue="Solana Token-2022"
+          subValue="Lahara Token-2022"
           icon={<Coins className="w-5 h-5 text-purple-400" />}
           iconColor="bg-purple-500/10 border-purple-500/30"
         />

@@ -37,22 +37,22 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         ? 'Solflare'
         : type === 'backpack'
         ? 'Backpack'
-        : 'Demo Solana Keypair';
+        : 'Demo Lahara Keypair';
 
     showSuccess(
-      'Solana Wallet Connected',
-      `${label} (${shortenAddress(updated.address || '', 4)}) connected on Solana ${updated.cluster.toUpperCase()}`
+      'Lahara Wallet Connected',
+      `${label} (${shortenAddress(updated.address || '', 4)}) connected on Lahara ${updated.cluster.toUpperCase()}`
     );
   };
 
   const disconnect = async () => {
     await disconnectWallet();
-    showInfo('Wallet Disconnected', 'Your Solana wallet has been disconnected.');
+    showInfo('Wallet Disconnected', 'Your Lahara wallet has been disconnected.');
   };
 
   const switchCluster = async (cluster: SolanaCluster) => {
     await switchClusterRequest(cluster);
-    showInfo('Solana Cluster Switched', `Active Solana RPC network: ${cluster}`);
+    showInfo('Lahara Cluster Switched', `Active Lahara RPC network: ${cluster}`);
   };
 
   return (

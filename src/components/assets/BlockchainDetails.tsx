@@ -27,7 +27,7 @@ export const BlockchainDetails: React.FC<BlockchainDetailsProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <h3 className="text-base font-semibold text-white font-display flex items-center gap-2">
           <Cpu className="w-4 h-4 text-cyan-400" />
-          <span>Solana Anchor Smart Contract Architecture</span>
+          <span>Lahara Anchor Smart Contract Architecture</span>
         </h3>
 
         {onOpenInspector && (
@@ -58,7 +58,7 @@ export const BlockchainDetails: React.FC<BlockchainDetailsProps> = ({
           <span className="text-gray-400">Settlement Network</span>
           <p className="font-semibold text-white text-sm flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Solana {cluster.toUpperCase()}
+            Lahara {cluster.toUpperCase()}
           </p>
           <span className="text-[10px] text-gray-400 font-mono">Anchor Framework v0.30.1 • 400ms Finality</span>
         </div>

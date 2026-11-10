@@ -320,7 +320,7 @@ export const InvestModal: React.FC = () => {
               <div className="flex justify-between">
                 <span className="text-gray-400">Protocol Settlement</span>
                 <span className="text-purple-300 font-mono text-[11px]">
-                  Solana Anchor ({wallet.cluster.toUpperCase()})
+                  Lahara Anchor ({wallet.cluster.toUpperCase()})
                 </span>
               </div>
               <div className="flex justify-between">
@@ -334,7 +334,7 @@ export const InvestModal: React.FC = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Recipient Solana Address</span>
+                <span className="text-gray-400">Recipient Lahara Address</span>
                 <span className="font-mono text-gray-300">{shortenAddress(wallet.address || user.walletAddress, 4)}</span>
               </div>
             </div>
@@ -356,7 +356,7 @@ export const InvestModal: React.FC = () => {
               className="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-500 hover:from-emerald-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
-                <span>Executing Solana Anchor Instruction...</span>
+                <span>Executing Lahara Anchor Instruction...</span>
               ) : (
                 <>
                   <CheckCircle2 className="w-4 h-4" />
@@ -375,16 +375,16 @@ export const InvestModal: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="text-xl font-bold text-white font-display">Solana Investment Confirmed!</h4>
+            <h4 className="text-xl font-bold text-white font-display">Lahara Investment Confirmed!</h4>
             <p className="text-xs text-gray-400 mt-1">
-              You now hold {quantity} tokens of {asset.name}. Anchor program instruction confirmed on Solana {wallet.cluster.toUpperCase()}.
+              You now hold {quantity} tokens of {asset.name}. Anchor program instruction confirmed on Lahara {wallet.cluster.toUpperCase()}.
             </p>
           </div>
 
           {/* Transaction Receipt Box */}
           <div className="p-4 rounded-xl bg-[#0F1626] border border-[#1E293B] text-left text-xs space-y-2.5">
             <div className="flex justify-between items-center">
-              <span className="text-gray-400">Solana Signature</span>
+              <span className="text-gray-400">Lahara Signature</span>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
@@ -400,7 +400,7 @@ export const InvestModal: React.FC = () => {
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-400 hover:text-white"
-                  title="View on Solana Explorer"
+                  title="View on Lahara Explorer"
                 >
                   <ExternalLink className="w-3 h-3" />
                 </a>
@@ -412,7 +412,7 @@ export const InvestModal: React.FC = () => {
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Network & Settlement</span>
-              <span className="text-emerald-400 font-semibold">Confirmed (Solana {wallet.cluster.toUpperCase()})</span>
+              <span className="text-emerald-400 font-semibold">Confirmed (Lahara {wallet.cluster.toUpperCase()})</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Invested Capital</span>

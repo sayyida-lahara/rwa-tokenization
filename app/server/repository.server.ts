@@ -137,7 +137,7 @@ export function submitAsset(data: AssetSubmissionInput): { asset: Asset; chain: 
     id: newId,
     name: data.name,
     tagLine:
-      data.tagLine || 'Newly tokenized institutional asset awaiting Solana Anchor verification',
+      data.tagLine || 'Newly tokenized institutional asset awaiting Lahara Anchor verification',
     category: data.category,
     subcategory: data.subcategory || `${data.category} Project`,
     location:
@@ -149,7 +149,7 @@ export function submitAsset(data: AssetSubmissionInput): { asset: Asset; chain: 
         flag: '🇮🇳',
       },
     description:
-      data.description || 'Verified tokenized real-world investment opportunity on Solana Anchor.',
+      data.description || 'Verified tokenized real-world investment opportunity on Lahara Anchor.',
     highlights:
       data.highlights && data.highlights.length > 0
         ? data.highlights
@@ -157,7 +157,7 @@ export function submitAsset(data: AssetSubmissionInput): { asset: Asset; chain: 
             'Institutional Grade Asset Architecture',
             'Independent third-party appraisal on file',
             'Tokenized SPV legal custody in place',
-            'Anchor Rust Program Verified on Solana',
+            'Anchor Rust Program Verified on Lahara',
           ],
     images:
       data.images && data.images.length > 0
@@ -189,7 +189,7 @@ export function submitAsset(data: AssetSubmissionInput): { asset: Asset; chain: 
         'Asset Class': data.category,
         'Valuation Standard': 'RICS / IVS compliant',
         Custodian: 'Institutional Trust Services',
-        Settlement: 'Solana Anchor Program',
+        Settlement: 'Lahara Anchor Program',
       },
     financialInfo:
       data.financialInfo || {
@@ -225,13 +225,13 @@ export function submitAsset(data: AssetSubmissionInput): { asset: Asset; chain: 
       data.blockchainInfo || {
         tokenSymbol: data.name.substring(0, 4).toUpperCase() + '-X',
         tokenStandard: 'Token-2022 (Transfer Hooks)',
-        network: 'Solana',
+        network: 'Lahara',
         cluster,
         programId: getProgramId(),
         tokenMint,
         vaultPda,
-        complianceAuditor: 'Securitize ONCHAINID / Solana Token-2022',
-        treasuryCustodian: 'BitGo Institutional Custody (Solana)',
+        complianceAuditor: 'Securitize ONCHAINID / Lahara Token-2022',
+        treasuryCustodian: 'BitGo Institutional Custody (Lahara)',
       },
     valuationHistory: [
       { date: 'Initial Listing', valuation: data.totalValuation, tokenPrice },
@@ -733,8 +733,8 @@ export function getChainInfo(): ChainInfo {
   const cluster = wallet.cluster || getCluster();
   const network =
     cluster === 'mainnet-beta'
-      ? 'Solana Mainnet Beta'
-      : `Solana ${cluster.charAt(0).toUpperCase()}${cluster.slice(1)}`;
+      ? 'Lahara Mainnet Beta'
+      : `Lahara ${cluster.charAt(0).toUpperCase()}${cluster.slice(1)}`;
 
   return {
     programId: getProgramId(),

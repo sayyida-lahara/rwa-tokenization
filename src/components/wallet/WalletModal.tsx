@@ -41,7 +41,7 @@ export const WalletModal: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-semibold text-white font-display">
-                {wallet.isConnected ? 'Connected Solana Wallet' : 'Connect Solana Wallet'}
+                {wallet.isConnected ? 'Connected Lahara Wallet' : 'Connect Lahara Wallet'}
               </h3>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 uppercase">
                 {wallet.cluster}
@@ -49,8 +49,8 @@ export const WalletModal: React.FC = () => {
             </div>
             <p className="text-xs text-gray-400">
               {wallet.isConnected
-                ? 'Solana Anchor RWA Protocol Settlement'
-                : 'Select your Solana provider to interact with Solana Testnet'}
+                ? 'Lahara Anchor RWA Protocol Settlement'
+                : 'Select your wallet provider to interact with Lahara Testnet'}
             </p>
           </div>
         </div>
@@ -62,7 +62,7 @@ export const WalletModal: React.FC = () => {
           {/* Active Wallet Card */}
           <div className="p-4 rounded-xl bg-[#0F1626] border border-[#1E293B] space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-gray-400 font-medium">Solana Public Key (Base58)</span>
+              <span className="text-xs text-gray-400 font-medium">Lahara Public Key (Base58)</span>
               <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 Connected ({wallet.walletType?.toUpperCase()})
@@ -113,7 +113,7 @@ export const WalletModal: React.FC = () => {
                 rel="noreferrer"
                 className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
               >
-                <span>Solana Explorer</span>
+                <span>Lahara Explorer</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
               <a
@@ -122,18 +122,18 @@ export const WalletModal: React.FC = () => {
                 rel="noreferrer"
                 className="text-gray-400 hover:text-white flex items-center gap-1 transition-colors"
               >
-                <span>Solscan</span>
+                <span>Lahara Scan</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
           </div>
 
-          {/* Solana Cluster Switcher */}
+          {/* Lahara Cluster Switcher */}
           <div>
             <div className="flex items-center justify-between mb-2">
               <label className="text-xs font-medium text-gray-400 flex items-center gap-1.5">
                 <Globe className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Solana Cluster RPC</span>
+                <span>Lahara Cluster RPC</span>
               </label>
               <span className="text-[10px] text-gray-500 font-mono">Anchor target: {wallet.cluster}</span>
             </div>
@@ -185,7 +185,7 @@ export const WalletModal: React.FC = () => {
       ) : (
         <div className="space-y-4">
           <p className="text-xs text-gray-300">
-            Connect using any native Solana wallet or initiate an instant institutional testnet keypair to explore Real World Asset tokenization on Solana.
+            Connect using any native Lahara wallet or initiate an instant institutional testnet keypair to explore Real World Asset tokenization on Lahara.
           </p>
 
           {/* Active Cluster Reminder */}
@@ -195,7 +195,7 @@ export const WalletModal: React.FC = () => {
               Target Network:
             </span>
             <span className="font-semibold text-cyan-300 font-mono bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/30">
-              Solana Testnet (RPC 8899)
+              Lahara Testnet (RPC 8899)
             </span>
           </div>
 
@@ -213,7 +213,7 @@ export const WalletModal: React.FC = () => {
                 <div className="text-left">
                   <div className="flex items-center gap-2">
                     <h4 className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
-                      Instant Solana Testnet Keypair
+                      Instant Lahara Testnet Keypair
                     </h4>
                     <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-500/40 font-semibold">
                       Recommended
@@ -247,7 +247,7 @@ export const WalletModal: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-gray-400">Solana's premier browser & mobile wallet</p>
+                  <p className="text-xs text-gray-400">Lahara's premier browser & mobile wallet</p>
                 </div>
               </div>
               <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
@@ -292,7 +292,7 @@ export const WalletModal: React.FC = () => {
                   <h4 className="text-sm font-semibold text-white group-hover:text-red-400 transition-colors">
                     Backpack
                   </h4>
-                  <p className="text-xs text-gray-400">Next-gen xNFT wallet for Solana</p>
+                  <p className="text-xs text-gray-400">Next-gen wallet for Lahara</p>
                 </div>
               </div>
               <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
@@ -301,7 +301,7 @@ export const WalletModal: React.FC = () => {
 
           <div className="p-3 rounded-lg bg-[#0F1626]/60 border border-[#1E293B] flex items-center gap-2.5 text-xs text-gray-400">
             <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Solana Anchor Rust contracts deployed on Solana Testnet. Zero private key exposure.</span>
+            <span>Lahara Anchor Rust contracts deployed on Lahara Testnet. Zero private key exposure.</span>
           </div>
         </div>
       )}

@@ -59,6 +59,8 @@ interface SolanaProgramInspectorProps {
   initialTab?: 'overview' | 'instructions' | 'pda' | 'rust';
 }
 
+export type LaharaProgramInspectorProps = SolanaProgramInspectorProps;
+
 export const SolanaProgramInspector: React.FC<SolanaProgramInspectorProps> = ({
   isOpen,
   onClose,
@@ -92,7 +94,7 @@ export const SolanaProgramInspector: React.FC<SolanaProgramInspectorProps> = ({
 
   const rustFiles: Record<string, string> = {
     'lib.rs': `// SPDX-License-Identifier: MIT
-// AssetX Real World Asset (RWA) Tokenization Protocol - Solana Anchor Program
+// AssetX Real World Asset (RWA) Tokenization Protocol - Lahara Anchor Program
 use anchor_lang::prelude::*;
 
 pub mod state;
@@ -108,7 +110,7 @@ declare_id!("${programId}");
 pub mod assetx_rwa {
     use super::*;
 
-    /// Initialize the global AssetX RWA marketplace configuration on Solana Testnet
+    /// Initialize the global AssetX RWA marketplace configuration on Lahara Testnet
     pub fn initialize_marketplace(
         ctx: Context<InitializeMarketplace>,
         protocol_fee_bps: u16,
@@ -149,7 +151,7 @@ pub mod assetx_rwa {
         instructions::verify_asset::handler(ctx, new_status)
     }
 
-    /// Investor executes purchase of tokenized RWA shares using SPL-USDC on Solana
+    /// Investor executes purchase of tokenized RWA shares using SPL-USDC on Lahara
     pub fn invest_tokens(
         ctx: Context<InvestTokens>,
         token_quantity: u64,
@@ -365,7 +367,7 @@ pub fn handler(ctx: Context<InvestTokens>, token_quantity: u64) -> Result<()> {
     pos.total_invested_usdc = pos.total_invested_usdc.checked_add(gross_cost).unwrap();
     pos.last_dividend_index = asset.global_dividend_index;
 
-    msg!("AssetX RWA Investment executed: {} tokens allocated on Solana", token_quantity);
+    msg!("AssetX RWA Investment executed: {} tokens allocated on Lahara", token_quantity);
     Ok(())
 }`,
 
@@ -445,7 +447,7 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-semibold text-white font-display">
-                Solana Anchor Program Inspector
+                Lahara Anchor Program Inspector
               </h3>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 uppercase">
                 {cluster}
@@ -559,7 +561,7 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
                 <span className="text-gray-400">Target RPC Network</span>
                 <p className="text-white font-semibold text-sm flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  Solana Testnet (api.testnet.solana.com)
+                  Lahara Testnet (api.testnet.lahara.network)
                 </p>
                 <span className="text-[10px] text-gray-500 font-mono">Cluster Endpoint: Port 8899</span>
               </div>
@@ -610,7 +612,7 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span>Compatible with Solana CLI (<code>anchor build</code>, <code>anchor test</code>, <code>solana airdrop</code>)</span>
+                  <span>Compatible with Lahara CLI (<code>anchor build</code>, <code>anchor test</code>, <code>lahara airdrop</code>)</span>
                 </li>
               </ul>
             </div>
@@ -660,7 +662,7 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
               {/* Accounts */}
               <div>
                 <span className="text-[11px] font-semibold text-gray-300 block mb-1.5">
-                  Required Solana Accounts ({currentInstr.accounts.length}):
+                  Required Lahara Accounts ({currentInstr.accounts.length}):
                 </span>
                 <div className="space-y-1 font-mono text-[11px]">
                   {currentInstr.accounts.map((acc: any) => (
@@ -714,7 +716,7 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
           <div className="space-y-4">
             <div className="p-3.5 rounded-xl bg-[#0F1626] border border-[#1E293B] space-y-3 text-xs">
               <p className="text-gray-300">
-                Solana Anchor derives cryptographic Program Derived Addresses (PDAs) deterministically from seeds and the Program ID. Use this interactive calculator to preview address derivations on Solana Testnet.
+                Lahara Anchor derives cryptographic Program Derived Addresses (PDAs) deterministically from seeds and the Program ID. Use this interactive calculator to preview address derivations on Lahara Testnet.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -862,3 +864,5 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
     </Modal>
   );
 };
+
+export const LaharaProgramInspector = SolanaProgramInspector;

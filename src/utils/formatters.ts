@@ -72,6 +72,8 @@ export function getSolanaExplorerUrl(
   return `https://explorer.solana.com/${type}/${item}${clusterParam}`;
 }
 
+export const getLaharaExplorerUrl = getSolanaExplorerUrl;
+
 export function getSolscanUrl(
   item: string,
   type: 'tx' | 'account' = 'tx',
@@ -80,4 +82,6 @@ export function getSolscanUrl(
   const clusterParam = cluster === 'mainnet-beta' ? '' : `?cluster=${cluster}`;
   return `https://solscan.io/${type}/${item}${clusterParam}`;
 }
+
+export const getLaharaScanUrl = getSolscanUrl;
 

@@ -87,7 +87,7 @@ export const RecentTransactionsTable: React.FC<RecentTransactionsTableProps> = (
           <table className="w-full text-left text-xs">
             <thead className="bg-[#0F1626] text-gray-400 border-b border-[#1E293B] uppercase tracking-wider text-[11px]">
               <tr>
-                <th className="py-3 px-4">Solana Tx Signature</th>
+                <th className="py-3 px-4">Lahara Tx Signature</th>
                 <th className="py-3 px-4">Asset</th>
                 <th className="py-3 px-4">Type</th>
                 <th className="py-3 px-4">Tokens</th>
@@ -111,7 +111,7 @@ export const RecentTransactionsTable: React.FC<RecentTransactionsTableProps> = (
                         <button
                           onClick={() => handleCopy(sig, tx.id)}
                           className="flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 transition-colors"
-                          title="Copy Solana Signature"
+                          title="Copy Lahara Signature"
                         >
                           <span>{shortenAddress(sig, 4)}</span>
                           {copiedId === tx.id ? (
@@ -125,13 +125,13 @@ export const RecentTransactionsTable: React.FC<RecentTransactionsTableProps> = (
                           target="_blank"
                           rel="noreferrer"
                           className="text-gray-500 hover:text-cyan-300 transition-colors"
-                          title={`View transaction on Solana Explorer (${cluster})`}
+                          title={`View transaction on Lahara Explorer (${cluster})`}
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                         </a>
                       </div>
                       <span className="text-[10px] text-purple-400/80 font-mono">
-                        Solana {cluster}
+                        Lahara {cluster}
                       </span>
                     </td>
 
