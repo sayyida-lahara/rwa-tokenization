@@ -62,3 +62,22 @@ export function formatDateTime(dateString: string): string {
     return dateString;
   }
 }
+
+export function getSolanaExplorerUrl(
+  item: string,
+  type: 'tx' | 'address' = 'tx',
+  cluster = 'testnet'
+): string {
+  const clusterParam = cluster === 'mainnet-beta' ? '' : `?cluster=${cluster}`;
+  return `https://explorer.solana.com/${type}/${item}${clusterParam}`;
+}
+
+export function getSolscanUrl(
+  item: string,
+  type: 'tx' | 'account' = 'tx',
+  cluster = 'testnet'
+): string {
+  const clusterParam = cluster === 'mainnet-beta' ? '' : `?cluster=${cluster}`;
+  return `https://solscan.io/${type}/${item}${clusterParam}`;
+}
+

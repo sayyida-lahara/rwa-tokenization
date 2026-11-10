@@ -68,10 +68,6 @@ export const MyInvestmentsPage: React.FC = () => {
                     <div className="absolute top-3 left-3 bg-[#0B1020]/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-[11px] font-semibold text-cyan-300 border border-cyan-500/30">
                       {asset.category}
                     </div>
-                    <div className="absolute top-3 right-3 bg-emerald-500/20 backdrop-blur-md px-2.5 py-1 rounded-lg text-emerald-300 text-xs font-bold border border-emerald-500/30 flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3" />
-                      <span>{asset.expectedYield}% APY</span>
-                    </div>
                   </Link>
 
                   {/* Card Details */}

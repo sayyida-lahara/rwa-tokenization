@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { AssetCard } from '../../components/marketplace/AssetCard';
 import {
   ArrowRight,
@@ -22,7 +22,8 @@ import {
 import { formatCurrency } from '../../utils/formatters';
 
 export const HomePage: React.FC = () => {
-  const assets = MockAssetService.getApprovedAssets();
+  const { getApprovedAssets } = useData();
+  const assets = getApprovedAssets();
   const featuredAssets = assets.filter((a) => a.isFeatured).slice(0, 6);
   const recentAssets = [...assets].reverse().slice(0, 4);
 
@@ -31,7 +32,7 @@ export const HomePage: React.FC = () => {
   const faqs = [
     {
       q: 'How does fractional Real World Asset (RWA) tokenization work?',
-      a: 'Each real-world property or physical commodity is held by an independent Special Purpose Vehicle (SPV) or legal trust. The equity or debt of that SPV is digitally represented by Solana Token-2022 security tokens via our Anchor smart contract on Solana Testnet, allowing investors to purchase fractional slices with automated continuous yield payouts.',
+      a: 'Each real-world property or physical commodity is held by an independent Special Purpose Vehicle (SPV) or legal trust. The equity or debt of that SPV is digitally represented by Solana Token-2022 security tokens via our Anchor smart contract on Solana Testnet, allowing investors to purchase fractional slices with instant on-chain settlement.',
     },
     {
       q: 'Are the underlying properties legally registered and insured?',
@@ -47,7 +48,7 @@ export const HomePage: React.FC = () => {
     },
     {
       q: 'Is this an actual blockchain transaction in this environment?',
-      a: 'This web application is an institutional frontend simulation. All wallet connections, token allocations, and smart contract transactions are safely simulated client-side using localStorage persistence without requiring real crypto or fiat currency.',
+      a: 'This web application is an institutional frontend with a Node/React Router backend backed by SQLite. Wallet connections, token allocations, and smart-contract calls are simulated on the server; the browser never talks to a chain or holds persisted state directly.',
     },
   ];
 
@@ -110,7 +111,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-emerald-400" />
-                  <span>Target 8 - 14% APY</span>
+                  <span>Institutional Grade RWA</span>
                 </div>
               </div>
             </div>
@@ -131,8 +132,8 @@ export const HomePage: React.FC = () => {
                     Featured Asset
                   </div>
                   <div className="absolute top-3 right-3 bg-emerald-500/20 backdrop-blur-md px-3 py-1 rounded-lg border border-emerald-500/40 text-xs font-bold text-emerald-300 flex items-center gap-1">
-                    <TrendingUp className="w-3.5 h-3.5" />
-                    <span>11.4% APY</span>
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Verified Listing</span>
                   </div>
 
                   <div className="absolute bottom-3 left-3 right-3">
@@ -209,7 +210,7 @@ export const HomePage: React.FC = () => {
               Featured Tokenized Assets
             </h2>
             <p className="text-xs text-gray-400 mt-1 max-w-lg">
-              Curated prime assets yielding competitive dividend yields with independent legal title backing.
+              Curated prime assets backed by audited title deeds and independent appraisals.
             </p>
           </div>
           <Link
@@ -315,7 +316,7 @@ export const HomePage: React.FC = () => {
             How Tokenized Investing Works
           </h2>
           <p className="text-xs text-gray-400">
-            From discovering high-yield properties to receiving automated cash distributions in USDC.
+            From discovering institutional properties to executing automated settlement in USDC.
           </p>
         </div>
 
@@ -329,7 +330,7 @@ export const HomePage: React.FC = () => {
             {
               step: '02',
               title: 'Select Investment',
-              desc: 'Analyze property financials, tenant covenants, valuation history, and projected annual yield.',
+              desc: 'Analyze property financials, tenant covenants, valuation history, and audited appraisals.',
             },
             {
               step: '03',
@@ -343,8 +344,8 @@ export const HomePage: React.FC = () => {
             },
             {
               step: '05',
-              title: 'Track & Earn',
-              desc: 'Monitor portfolio value, track asset appreciation, and receive periodic yield dividends.',
+              title: 'Track & Manage',
+              desc: 'Monitor portfolio value, track asset appreciation, and manage tokenized holdings.',
             },
           ].map((item, i) => (
             <div
@@ -397,9 +398,9 @@ export const HomePage: React.FC = () => {
 
               <div className="p-4 rounded-xl bg-[#151D30]/80 border border-[#22304E] space-y-2">
                 <CheckCircle2 className="w-5 h-5 text-purple-400" />
-                <h4 className="text-sm font-semibold text-white">Automated Yield Payouts</h4>
+                <h4 className="text-sm font-semibold text-white">Automated Escrow Settlement</h4>
                 <p className="text-xs text-gray-400 leading-relaxed">
-                  Rental revenues and solar feed-in tariffs distributed programmatically to tokenholders in USDC.
+                  Smart contract-governed escrow and title transfers executed programmatically on Solana.
                 </p>
               </div>
 

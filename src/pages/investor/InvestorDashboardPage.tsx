@@ -187,7 +187,7 @@ export const InvestorDashboardPage: React.FC = () => {
               Recent On-Chain Activity
             </h2>
             <p className="text-xs text-gray-400">
-              Purchases, simulated mints, and automated yield dividend payouts
+              Purchases, simulated mints, and settlement records
             </p>
           </div>
           <Link

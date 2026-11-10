@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import type { Asset } from '../../types';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
 import { useToast } from '../../context/ToastContext';
@@ -17,18 +17,15 @@ import {
 import { Modal } from '../../components/common/Modal';
 
 export const AssetVerificationPage: React.FC = () => {
-  const [assets, setAssets] = useState<Asset[]>(() => MockAssetService.getAssets());
+  const { assets, updateAssetStatus } = useData();
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
   const [reviewComments, setReviewComments] = useState('');
   const [rejectionReason, setRejectionReason] = useState('');
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [actionType, setActionType] = useState<'approve' | 'reject'>('approve');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { showSuccess, showError, showInfo } = useToast();
-
-  const reloadAssets = () => {
-    setAssets([...MockAssetService.getAssets()]);
-  };
 
   const handleOpenReview = (asset: Asset, action: 'approve' | 'reject') => {
     setSelectedAsset(asset);
@@ -38,35 +35,39 @@ export const AssetVerificationPage: React.FC = () => {
     setIsReviewModalOpen(true);
   };
 
-  const handleConfirmAction = () => {
+  const handleConfirmAction = async () => {
     if (!selectedAsset) return;
-
-    if (actionType === 'approve') {
-      MockAssetService.updateAssetStatus(
-        selectedAsset.id,
-        'Approved',
-        reviewComments
-      );
-      showSuccess(
-        'Asset Approved & Listed!',
-        `${selectedAsset.name} is now approved and visible in the public marketplace.`
-      );
-    } else {
-      MockAssetService.updateAssetStatus(
-        selectedAsset.id,
-        'Rejected',
-        reviewComments,
-        rejectionReason
-      );
-      showInfo(
-        'Asset Rejected',
-        `${selectedAsset.name} has been marked as rejected with comments.`
-      );
+    setIsSubmitting(true);
+    try {
+      if (actionType === 'approve') {
+        await updateAssetStatus(
+          selectedAsset.id,
+          'Approved',
+          reviewComments
+        );
+        showSuccess(
+          'Asset Approved & Listed!',
+          `${selectedAsset.name} is now approved and visible in the public marketplace.`
+        );
+      } else {
+        await updateAssetStatus(
+          selectedAsset.id,
+          'Rejected',
+          reviewComments,
+          rejectionReason
+        );
+        showInfo(
+          'Asset Rejected',
+          `${selectedAsset.name} has been marked as rejected with comments.`
+        );
+      }
+      setIsReviewModalOpen(false);
+      setSelectedAsset(null);
+    } catch (err: any) {
+      showError('Action Failed', err.message || 'Failed to update asset verification status');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    reloadAssets();
-    setIsReviewModalOpen(false);
-    setSelectedAsset(null);
   };
 
   return (
@@ -278,13 +279,18 @@ export const AssetVerificationPage: React.FC = () => {
               </button>
               <button
                 onClick={handleConfirmAction}
-                className={`w-2/3 py-2.5 rounded-xl text-xs font-semibold text-white shadow-lg transition-all ${
+                disabled={isSubmitting}
+                className={`w-2/3 py-2.5 rounded-xl text-xs font-semibold text-white shadow-lg transition-all disabled:opacity-50 ${
                   actionType === 'approve'
                     ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/25'
                     : 'bg-rose-600 hover:bg-rose-500 shadow-rose-600/25'
                 }`}
               >
-                {actionType === 'approve' ? 'Confirm Approval' : 'Confirm Rejection'}
+                {isSubmitting
+                  ? 'Saving to SQLite...'
+                  : actionType === 'approve'
+                  ? 'Confirm Approval'
+                  : 'Confirm Rejection'}
               </button>
             </div>
           </div>

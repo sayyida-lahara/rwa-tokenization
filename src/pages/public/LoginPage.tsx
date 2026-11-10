@@ -11,14 +11,15 @@ export const LoginPage: React.FC = () => {
   const { showSuccess } = useToast();
   const [emailInput, setEmailInput] = useState('investor@assetx.demo');
 
-  const handleQuickLogin = (role: UserRole, targetRoute: string) => {
-    loginAsRole(role);
+  const handleQuickLogin = async (role: UserRole, targetRoute: string) => {
+    await loginAsRole(role);
     navigate(targetRoute);
   };
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (loginWithEmail(emailInput)) {
+    const success = await loginWithEmail(emailInput);
+    if (success) {
       if (emailInput.includes('admin')) {
         navigate('/admin/dashboard');
       } else if (emailInput.includes('issuer')) {

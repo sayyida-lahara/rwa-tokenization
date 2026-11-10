@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { AssetCard } from '../../components/marketplace/AssetCard';
 import { Building, PlusCircle } from 'lucide-react';
 
 export const MyListedAssetsPage: React.FC = () => {
-  const assets = MockAssetService.getAssets();
+  const { assets } = useData();
 
   return (
     <div className="space-y-6">

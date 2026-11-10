@@ -1,10 +1,11 @@
 import React from 'react';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { AssetCard } from '../../components/marketplace/AssetCard';
 import { Shield, Zap, Globe2 } from 'lucide-react';
 
 export const InfrastructurePage: React.FC = () => {
-  const allAssets = MockAssetService.getApprovedAssets();
+  const { getApprovedAssets } = useData();
+  const allAssets = getApprovedAssets();
   const infraAssets = allAssets.filter(
     (a) => a.category === 'Infrastructure' || a.category === 'Renewable Energy' || a.category === 'Industrial'
   );
@@ -29,8 +30,8 @@ export const InfrastructurePage: React.FC = () => {
 
           <div className="flex items-center gap-6 pt-3 text-xs text-gray-400">
             <div>
-              <span className="block text-emerald-400 font-bold font-display text-base">11.2% - 14.2%</span>
-              <span>Projected Cash Yield</span>
+              <span className="block text-emerald-400 font-bold font-display text-base">Tier 1</span>
+              <span>Grid Infrastructure</span>
             </div>
             <div className="h-6 w-[1px] bg-[#22304E]" />
             <div>

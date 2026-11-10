@@ -68,14 +68,6 @@ export const AssetCard: React.FC<AssetCardProps> = ({ asset }) => {
             <Heart className={`w-4 h-4 ${isSaved ? 'fill-rose-400' : ''}`} />
           </button>
         </div>
-
-        {/* Floating Yield Badge */}
-        <div className="absolute bottom-3 right-3 pointer-events-auto">
-          <div className="px-2.5 py-1 rounded-lg bg-emerald-500/20 backdrop-blur-md border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-1 shadow-md">
-            <TrendingUp className="w-3 h-3" />
-            <span>{asset.expectedYield}% APY</span>
-          </div>
-        </div>
       </Link>
 
       {/* Card Content */}

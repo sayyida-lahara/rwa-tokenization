@@ -36,9 +36,9 @@ export const InvestNowCard: React.FC<InvestNowCardProps> = ({ asset }) => {
           </div>
         </div>
         <div className="text-right">
-          <span className="text-xs text-gray-400 block">Target Yield</span>
-          <span className="text-lg font-bold font-display text-emerald-400">
-            {asset.expectedYield}% APY
+          <span className="text-xs text-gray-400 block">Total Supply</span>
+          <span className="text-lg font-bold font-display text-white">
+            {formatNumber(asset.totalTokenSupply)}
           </span>
         </div>
       </div>
@@ -114,10 +114,6 @@ export const InvestNowCard: React.FC<InvestNowCardProps> = ({ asset }) => {
             <div className="flex justify-between font-semibold">
               <span className="text-gray-200">Total Investment</span>
               <span className="text-cyan-400 text-sm font-bold font-display">{formatCurrency(total)}</span>
-            </div>
-            <div className="flex justify-between text-[11px] text-emerald-400 pt-1">
-              <span>Projected Annual Return</span>
-              <span className="font-bold">~{formatCurrency((subtotal * asset.expectedYield) / 100)} / yr</span>
             </div>
           </div>
         </div>

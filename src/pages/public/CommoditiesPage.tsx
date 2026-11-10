@@ -1,10 +1,11 @@
 import React from 'react';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { AssetCard } from '../../components/marketplace/AssetCard';
 import { Coins, ShieldCheck, Lock, ExternalLink } from 'lucide-react';
 
 export const CommoditiesPage: React.FC = () => {
-  const allAssets = MockAssetService.getApprovedAssets();
+  const { getApprovedAssets } = useData();
+  const allAssets = getApprovedAssets();
   const commodityAssets = allAssets.filter((a) => a.category === 'Gold');
 
   return (

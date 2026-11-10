@@ -30,7 +30,7 @@ export const HowItWorksPage: React.FC = () => {
     {
       num: '03',
       title: 'Solana Anchor Tokenization & Transfer Hooks',
-      desc: 'Equity in the SPV is tokenized using Solana Token-2022 with Transfer Hooks on Solana Testnet. Smart contract instructions executed via Rust Anchor programs enforce instant compliance, zero-custody vault escrow, and O(1) continuous yield distribution.',
+      desc: 'Equity in the SPV is tokenized using Solana Token-2022 with Transfer Hooks on Solana Testnet. Smart contract instructions executed via Rust Anchor programs enforce instant compliance, zero-custody vault escrow, and atomic settlement.',
       icon: <Cpu className="w-6 h-6 text-cyan-400" />,
     },
     {
@@ -41,8 +41,8 @@ export const HowItWorksPage: React.FC = () => {
     },
     {
       num: '05',
-      title: 'Automated Yield Distribution',
-      desc: 'Operating cash flows—such as tenant rent or solar electricity sales—are deposited directly into tokenholder wallets periodically in USDC, creating frictionless passive income.',
+      title: 'Automated Secondary Settlement & Custody',
+      desc: 'Holders retain fractional title rights and liquidity with on-chain cryptographic proof of ownership, verifiable against custodian registry records.',
       icon: <TrendingUp className="w-6 h-6 text-purple-400" />,
     },
   ];
@@ -59,7 +59,7 @@ export const HowItWorksPage: React.FC = () => {
         </h1>
         <p className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
           Bridging real-world assets with Web3 financial rails to create institutional liquidity,
-          automated monthly yield, and fractional ownership for global investors.
+          transparent custody, and fractional ownership for global investors.
         </p>
       </div>
 

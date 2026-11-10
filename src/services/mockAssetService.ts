@@ -38,7 +38,7 @@ export class MockAssetService {
 
   static submitAsset(data: Partial<Asset> & { name: string; category: any; totalValuation: number }): Asset {
     const assets = this.getAssets();
-    const newId = `asset-sub-${Date.now()}`;
+    const newId = `asset-sub-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
     const tokenPrice = data.tokenPrice || (data.totalTokenSupply ? data.totalValuation / data.totalTokenSupply : 50);
     const totalTokenSupply = data.totalTokenSupply || Math.round(data.totalValuation / tokenPrice);
 

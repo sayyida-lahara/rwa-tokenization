@@ -4,7 +4,7 @@ import type { VerificationStatus, InvestmentStatus } from '../../types';
 
 interface BadgeProps {
   children?: React.ReactNode;
-  variant?: 'verified' | 'category' | 'status' | 'outline' | 'yield';
+  variant?: 'verified' | 'category' | 'status' | 'outline';
   status?: VerificationStatus | InvestmentStatus | string;
   className?: string;
   size?: 'sm' | 'md';
@@ -26,16 +26,6 @@ export const Badge: React.FC<BadgeProps> = ({
       >
         <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
         <span>Verified Asset</span>
-      </span>
-    );
-  }
-
-  if (variant === 'yield') {
-    return (
-      <span
-        className={`inline-flex items-center gap-1 font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 rounded-lg ${sizeClasses} ${className}`}
-      >
-        <span>APY {children}</span>
       </span>
     );
   }

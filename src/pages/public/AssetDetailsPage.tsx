@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { ImageGallery } from '../../components/assets/ImageGallery';
 import { InvestNowCard } from '../../components/assets/InvestNowCard';
 import { FinancialBreakdown } from '../../components/assets/FinancialBreakdown';
@@ -30,7 +30,8 @@ import {
 
 export const AssetDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const asset = MockAssetService.getAssetById(id || 'asset-1');
+  const { getAssetById } = useData();
+  const asset = getAssetById(id || 'asset-1');
 
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
   const { transactions } = useInvestment();
@@ -161,10 +162,9 @@ export const AssetDetailsPage: React.FC = () => {
           </span>
         </div>
         <div className="p-2">
-          <span className="text-[11px] text-gray-400 block">Expected Yield</span>
-          <span className="text-base font-bold font-display text-emerald-400 flex items-center gap-1">
-            <TrendingUp className="w-3.5 h-3.5" />
-            {asset.expectedYield}% APY
+          <span className="text-[11px] text-gray-400 block">Total Supply</span>
+          <span className="text-base font-bold font-mono text-emerald-400">
+            {formatNumber(asset.totalTokenSupply)}
           </span>
         </div>
       </div>
@@ -180,7 +180,7 @@ export const AssetDetailsPage: React.FC = () => {
           <div className="flex items-center gap-2 border-b border-[#1E293B] overflow-x-auto no-scrollbar">
             {[
               { id: 'overview', label: 'Overview' },
-              { id: 'financials', label: 'Financials & Yield' },
+              { id: 'financials', label: 'Financial Overview' },
               { id: 'specs', label: 'Specifications' },
               { id: 'legal', label: 'Legal & Custody' },
               { id: 'blockchain', label: 'Blockchain' },

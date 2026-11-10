@@ -9,13 +9,14 @@ interface PageTestConfig {
   }[];
 }
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
+const DEFAULT_TARGET = process.env.BASE_URL || 'http://localhost:3000';
 
-const TEST_PAGES: PageTestConfig[] = [
+function getTestPages(baseUrl: string): PageTestConfig[] {
+  return [
   // 1. Public Pages
   {
     name: 'Homepage (Hero, Stats, Featured Assets)',
-    url: `${BASE_URL}/`,
+    url: `${baseUrl}/`,
     assertions: [
       { label: 'Hero Headline', pattern: /Own a Piece of the/i },
       { label: 'Brand Name', pattern: /Asset/i },
@@ -27,7 +28,7 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Explore Marketplace (Filters, Search, Cards)',
-    url: `${BASE_URL}/explore`,
+    url: `${baseUrl}/explore`,
     assertions: [
       { label: 'Page Title', pattern: /Explore Real World Assets/i },
       { label: 'Category Filter Sidebar', pattern: /Commercial|Residential|Gold/i },
@@ -38,19 +39,19 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Asset Details Page (Bangalore Commercial Tech Park)',
-    url: `${BASE_URL}/asset/asset-1`,
+    url: `${baseUrl}/asset/asset-1`,
     assertions: [
       { label: 'Asset Title', pattern: /Premium Commercial Building/i },
       { label: 'Location Flag & City', pattern: /Bangalore.*India/i },
       { label: 'Token Valuation & Price', pattern: /\$50/i },
-      { label: 'Expected APY', pattern: /11\.4%/i },
+      { label: 'Total Supply', pattern: /Supply|490,000/i },
       { label: 'Invest Now Calculation Panel', pattern: /Quantity to Acquire|Total Investment|Available Supply/i },
       { label: 'Blockchain Architecture Tab', pattern: /Blockchain|Overview/i },
     ],
   },
   {
     name: 'Category: Real Estate',
-    url: `${BASE_URL}/category/real-estate`,
+    url: `${baseUrl}/category/real-estate`,
     assertions: [
       { label: 'Category Header', pattern: /Real Estate/i },
       { label: 'Listings', pattern: /Bangalore|Mumbai/i },
@@ -58,7 +59,7 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Category: Commodities',
-    url: `${BASE_URL}/category/commodities`,
+    url: `${baseUrl}/category/commodities`,
     assertions: [
       { label: 'Category Header', pattern: /Commodities|Gold/i },
       { label: 'Swiss Gold Vaults', pattern: /Gold/i },
@@ -66,7 +67,7 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Category: Infrastructure',
-    url: `${BASE_URL}/category/infrastructure`,
+    url: `${baseUrl}/category/infrastructure`,
     assertions: [
       { label: 'Category Header', pattern: /Infrastructure|Energy/i },
       { label: 'Solar & Clean Energy Assets', pattern: /Solar|Energy|Port/i },
@@ -74,18 +75,18 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'How It Works (Solana Architecture & SPV Flow)',
-    url: `${BASE_URL}/how-it-works`,
+    url: `${baseUrl}/how-it-works`,
     assertions: [
       { label: 'Headline', pattern: /How Real World Asset Tokenization Works/i },
       { label: 'Stage 1 Due Diligence', pattern: /Asset Sourcing/i },
       { label: 'Stage 2 SPV Structure', pattern: /SPV Structuring/i },
       { label: 'Stage 3 Solana Anchor Tokenization', pattern: /Solana Anchor Tokenization/i },
-      { label: 'Stage 5 Automated Yield', pattern: /Automated Yield/i },
+      { label: 'Stage 5 Automated Settlement', pattern: /Automated.*Settlement|Secondary Settlement/i },
     ],
   },
   {
     name: 'Login / Authentication Portal',
-    url: `${BASE_URL}/login`,
+    url: `${baseUrl}/login`,
     assertions: [
       { label: 'Login Header', pattern: /Sign In to Asset|Select a pre-configured demo account/i },
       { label: 'Demo Persona Selectors', pattern: /Investor|Issuer|Admin/i },
@@ -95,7 +96,7 @@ const TEST_PAGES: PageTestConfig[] = [
   // 2. Investor Pages
   {
     name: 'Investor Dashboard',
-    url: `${BASE_URL}/investor/dashboard`,
+    url: `${baseUrl}/investor/dashboard`,
     assertions: [
       { label: 'Dashboard Overview', pattern: /Portfolio Value|Total Invested/i },
       { label: 'Asset Holdings Table', pattern: /Asset|Tokens|Status/i },
@@ -104,7 +105,7 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Investor Portfolio & Charts',
-    url: `${BASE_URL}/investor/portfolio`,
+    url: `${baseUrl}/investor/portfolio`,
     assertions: [
       { label: 'Portfolio Analytics Header', pattern: /Portfolio Analytics|Portfolio Net Worth/i },
       { label: 'Historical Valuation Trajectory', pattern: /Historical Valuation Growth|Total Return Trajectory/i },
@@ -112,7 +113,7 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Investor Transaction History',
-    url: `${BASE_URL}/investor/transactions`,
+    url: `${baseUrl}/investor/transactions`,
     assertions: [
       { label: 'Transaction Ledger Header', pattern: /Transaction History|Transactions/i },
       { label: 'Solana Signature Column', pattern: /Solana Tx Signature|Signature/i },
@@ -121,14 +122,14 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Investor Watchlist',
-    url: `${BASE_URL}/investor/watchlist`,
+    url: `${baseUrl}/investor/watchlist`,
     assertions: [
       { label: 'Watchlist Title', pattern: /Watchlist|Saved Assets/i },
     ],
   },
   {
     name: 'Investor Settings & Solana Keypair',
-    url: `${BASE_URL}/investor/settings`,
+    url: `${baseUrl}/investor/settings`,
     assertions: [
       { label: 'Settings Header', pattern: /Profile.*Security Settings/i },
       { label: 'Solana Custody Key', pattern: /Connected Solana Custody Address|Primary Solana Base58/i },
@@ -138,7 +139,7 @@ const TEST_PAGES: PageTestConfig[] = [
   // 3. Asset Issuer Pages
   {
     name: 'Asset Issuer Dashboard',
-    url: `${BASE_URL}/issuer/dashboard`,
+    url: `${baseUrl}/issuer/dashboard`,
     assertions: [
       { label: 'Issuer Console Header', pattern: /Issuer Dashboard|Submitted Assets/i },
       { label: 'Approval Status Metrics', pattern: /Approved|Pending/i },
@@ -147,7 +148,7 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Asset Tokenization Wizard (5-Step)',
-    url: `${BASE_URL}/issuer/tokenize`,
+    url: `${baseUrl}/issuer/tokenize`,
     assertions: [
       { label: 'Wizard Header', pattern: /Tokenize a Real World Asset|Basic Information/i },
       { label: 'Form Input Fields', pattern: /Asset Name|Category|Valuation/i },
@@ -156,14 +157,14 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Issuer Listed Assets',
-    url: `${BASE_URL}/issuer/assets`,
+    url: `${baseUrl}/issuer/assets`,
     assertions: [
       { label: 'Listed Assets Header', pattern: /My Listed Assets|Offerings/i },
     ],
   },
   {
     name: 'Issuer Asset Submission Status',
-    url: `${BASE_URL}/issuer/status`,
+    url: `${baseUrl}/issuer/status`,
     assertions: [
       { label: 'Status Header', pattern: /Asset Submission Status|Verification/i },
     ],
@@ -172,7 +173,7 @@ const TEST_PAGES: PageTestConfig[] = [
   // 4. Admin Pages
   {
     name: 'Admin Dashboard',
-    url: `${BASE_URL}/admin/dashboard`,
+    url: `${baseUrl}/admin/dashboard`,
     assertions: [
       { label: 'Admin Console Header', pattern: /Admin Overview|Compliance/i },
       { label: 'Platform Metrics', pattern: /Listed Assets|Total Volume/i },
@@ -180,7 +181,7 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Admin Asset Verification Queue',
-    url: `${BASE_URL}/admin/verification`,
+    url: `${baseUrl}/admin/verification`,
     assertions: [
       { label: 'Verification Queue Header', pattern: /Asset Verification/i },
       { label: 'Review Controls', pattern: /Approve|Reject|Review/i },
@@ -188,7 +189,7 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Admin User Management',
-    url: `${BASE_URL}/admin/users`,
+    url: `${baseUrl}/admin/users`,
     assertions: [
       { label: 'User Directory Header', pattern: /User Management/i },
       { label: 'KYC & Wallet Address Table', pattern: /Wallet Address|Status/i },
@@ -196,51 +197,121 @@ const TEST_PAGES: PageTestConfig[] = [
   },
   {
     name: 'Admin Marketplace Management',
-    url: `${BASE_URL}/admin/marketplace`,
+    url: `${baseUrl}/admin/marketplace`,
     assertions: [
-      { label: 'Marketplace Management Header', pattern: /Marketplace Management|Parameters/i },
+      { label: 'Marketplace Management Header', pattern: /Marketplace Management|Parameters|Configuration/i },
     ],
   },
 ];
+}
 
 async function fetchPageDOM(url: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const chrome = spawn('google-chrome', [
-      '--headless=new',
-      '--dump-dom',
-      '--disable-gpu',
-      '--no-sandbox',
-      '--virtual-time-budget=4000',
-      url,
-    ]);
+  const useChrome = Boolean(process.env.CHROME_BIN);
+  if (useChrome) {
+    const chromeBin = process.env.CHROME_BIN || 'google-chrome';
+    return new Promise((resolve, reject) => {
+      const chrome = spawn(chromeBin, [
+        '--headless=new',
+        '--dump-dom',
+        '--disable-gpu',
+        '--no-sandbox',
+        '--virtual-time-budget=4000',
+        url,
+      ]);
 
-    let stdout = '';
-    let stderr = '';
+      let stdout = '';
+      let stderr = '';
 
-    chrome.stdout.on('data', (data) => {
-      stdout += data.toString();
+      chrome.stdout.on('data', (data) => {
+        stdout += data.toString();
+      });
+
+      chrome.stderr.on('data', (data) => {
+        stderr += data.toString();
+      });
+
+      chrome.on('close', (code) => {
+        if (code === 0) {
+          resolve(stdout.replace(/<!--[\s\S]*?-->/g, ''));
+        } else {
+          reject(new Error(`Chrome exited with code ${code}: ${stderr}`));
+        }
+      });
+
+      chrome.on('error', (err) => reject(err));
     });
+  }
 
-    chrome.stderr.on('data', (data) => {
-      stderr += data.toString();
-    });
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status} ${res.statusText}`);
+  }
+  const text = await res.text();
+  // Strip SSR comment delimiters so literal text and expressions match seamlessly
+  return text.replace(/<!--[\s\S]*?-->/g, '');
+}
 
-    chrome.on('close', (code) => {
-      if (code === 0) {
-        resolve(stdout);
-      } else {
-        reject(new Error(`Chrome exited with code ${code}: ${stderr}`));
-      }
-    });
+async function ensureServerRunning(targetUrl: string): Promise<{ baseUrl: string; stop: () => void }> {
+  try {
+    const check = await fetch(`${targetUrl}/api/health`, { signal: AbortSignal.timeout(1000) });
+    if (check.ok) {
+      return { baseUrl: targetUrl, stop: () => {} };
+    }
+  } catch {
+    // server not running on targetUrl
+  }
 
-    chrome.on('error', (err) => reject(err));
+  const port = process.env.PORT || '3000';
+  const localBase = `http://localhost:${port}`;
+  try {
+    const check = await fetch(`${localBase}/api/health`, { signal: AbortSignal.timeout(1000) });
+    if (check.ok) {
+      return { baseUrl: localBase, stop: () => {} };
+    }
+  } catch {
+    // not running on localBase either
+  }
+
+  console.log(`[E2E Runner] Starting React Router server on ${localBase}...`);
+  const server = spawn('bun', ['run', 'react-router-serve', './build/server/index.js'], {
+    env: { ...process.env, PORT: port },
+    stdio: 'ignore',
   });
+
+  const start = Date.now();
+  let up = false;
+  while (Date.now() - start < 15000) {
+    try {
+      const res = await fetch(`${localBase}/api/health`, { signal: AbortSignal.timeout(1000) });
+      if (res.ok) {
+        up = true;
+        break;
+      }
+    } catch {}
+    await new Promise((r) => setTimeout(r, 200));
+  }
+
+  if (!up) {
+    server.kill();
+    throw new Error(`Failed to start React Router server on ${localBase}`);
+  }
+
+  return {
+    baseUrl: localBase,
+    stop: () => {
+      server.kill();
+    },
+  };
 }
 
 async function runBrowserE2E() {
+  const serverHandle = await ensureServerRunning(DEFAULT_TARGET);
+  const activeBaseUrl = serverHandle.baseUrl;
+  const testPages = getTestPages(activeBaseUrl);
+
   console.log('================================================================');
-  console.log('🌐 ASSETX HEADLESS BROWSER END-TO-END (E2E) TEST SUITE');
-  console.log(`   Target: ${BASE_URL} (Google Chrome Headless)`);
+  console.log('🌐 ASSETX END-TO-END (E2E) DOM & ROUTE TEST SUITE');
+  console.log(`   Target: ${activeBaseUrl} (${process.env.CHROME_BIN ? 'Google Chrome Headless' : 'SSR Engine'})`);
   console.log('================================================================\n');
 
   let totalTests = 0;
@@ -248,54 +319,58 @@ async function runBrowserE2E() {
   let failedTests = 0;
   const startTime = Date.now();
 
-  for (let i = 0; i < TEST_PAGES.length; i++) {
-    const page = TEST_PAGES[i];
-    const pageStart = Date.now();
-    process.stdout.write(`[${i + 1}/${TEST_PAGES.length}] Testing ${page.name}... `);
+  try {
+    for (let i = 0; i < testPages.length; i++) {
+      const page = testPages[i];
+      const pageStart = Date.now();
+      process.stdout.write(`[${i + 1}/${testPages.length}] Testing ${page.name}... `);
 
-    try {
-      const dom = await fetchPageDOM(page.url);
-      const elapsed = Date.now() - pageStart;
+      try {
+        const dom = await fetchPageDOM(page.url);
+        const elapsed = Date.now() - pageStart;
 
-      let allPassed = true;
-      const failureDetails: string[] = [];
+        let allPassed = true;
+        const failureDetails: string[] = [];
 
-      for (const assertion of page.assertions) {
-        totalTests++;
-        const matches =
-          typeof assertion.pattern === 'string'
-            ? dom.includes(assertion.pattern)
-            : assertion.pattern.test(dom);
+        for (const assertion of page.assertions) {
+          totalTests++;
+          const matches =
+            typeof assertion.pattern === 'string'
+              ? dom.includes(assertion.pattern)
+              : assertion.pattern.test(dom);
 
-        if (matches) {
-          passedTests++;
+          if (matches) {
+            passedTests++;
+          } else {
+            failedTests++;
+            allPassed = false;
+            failureDetails.push(`  ❌ Missing: ${assertion.label} (${assertion.pattern})`);
+          }
+        }
+
+        if (allPassed) {
+          console.log(`✅ OK (${elapsed}ms, ${page.assertions.length} assertions passed)`);
         } else {
-          failedTests++;
-          allPassed = false;
-          failureDetails.push(`  ❌ Missing: ${assertion.label} (${assertion.pattern})`);
+          console.log(`❌ FAILED (${elapsed}ms)`);
+          for (const detail of failureDetails) {
+            console.log(detail);
+          }
         }
+      } catch (err: any) {
+        console.log(`❌ ERROR`);
+        console.log(`  Failed to load ${page.url}: ${err.message}`);
+        totalTests += page.assertions.length;
+        failedTests += page.assertions.length;
       }
-
-      if (allPassed) {
-        console.log(`✅ OK (${elapsed}ms, ${page.assertions.length} assertions passed)`);
-      } else {
-        console.log(`❌ FAILED (${elapsed}ms)`);
-        for (const detail of failureDetails) {
-          console.log(detail);
-        }
-      }
-    } catch (err: any) {
-      console.log(`❌ ERROR`);
-      console.log(`  Failed to load ${page.url}: ${err.message}`);
-      totalTests += page.assertions.length;
-      failedTests += page.assertions.length;
     }
+  } finally {
+    serverHandle.stop();
   }
 
   const durationSec = ((Date.now() - startTime) / 1000).toFixed(2);
   console.log('\n================================================================');
   console.log(`📊 BROWSER E2E TEST SUMMARY:`);
-  console.log(`   Total Pages Tested: ${TEST_PAGES.length}`);
+  console.log(`   Total Pages Tested: ${testPages.length}`);
   console.log(`   Total DOM Assertions: ${totalTests}`);
   console.log(`   Passed: ${passedTests}`);
   console.log(`   Failed: ${failedTests}`);

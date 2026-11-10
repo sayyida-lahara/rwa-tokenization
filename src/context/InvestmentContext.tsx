@@ -1,41 +1,40 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import type { Asset, Holding, Transaction } from '../types';
-import { MockInvestmentService } from '../services/mockInvestmentService';
-import { useAuth } from './AuthContext';
-import { useWallet } from './WalletContext';
+import type { Asset, PortfolioSummary } from '../types';
+import { useData } from './DataContext';
 import { useToast } from './ToastContext';
 import confetti from 'canvas-confetti';
 
 interface InvestmentContextType {
-  holdings: Holding[];
-  transactions: Transaction[];
-  portfolio: ReturnType<typeof MockInvestmentService.getPortfolioSummary>;
+  holdings: ReturnType<typeof useData>['holdings'];
+  transactions: ReturnType<typeof useData>['transactions'];
+  portfolio: PortfolioSummary;
   selectedAssetForInvest: Asset | null;
   isInvestModalOpen: boolean;
   openInvestModal: (asset: Asset) => void;
   closeInvestModal: () => void;
   investInAsset: (assetId: string, quantity: number) => Promise<{ success: boolean; txHash?: string }>;
-  refreshData: () => void;
+  refreshData: () => Promise<void>;
 }
 
 const InvestmentContext = createContext<InvestmentContextType | undefined>(undefined);
 
 export const InvestmentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [holdings, setHoldings] = useState<Holding[]>(() => MockInvestmentService.getHoldings());
-  const [transactions, setTransactions] = useState<Transaction[]>(() => MockInvestmentService.getTransactions());
-  const [portfolio, setPortfolio] = useState(() => MockInvestmentService.getPortfolioSummary());
+  const {
+    holdings,
+    transactions,
+    portfolio,
+    currentUser,
+    wallet,
+    investInAsset: executeInvestment,
+    refresh,
+  } = useData();
   const [selectedAssetForInvest, setSelectedAssetForInvest] = useState<Asset | null>(null);
   const [isInvestModalOpen, setIsInvestModalOpen] = useState(false);
-
-  const { user } = useAuth();
-  const { wallet, deductBalance } = useWallet();
   const { showSuccess, showError } = useToast();
 
-  const refreshData = useCallback(() => {
-    setHoldings(MockInvestmentService.getHoldings());
-    setTransactions(MockInvestmentService.getTransactions());
-    setPortfolio(MockInvestmentService.getPortfolioSummary());
-  }, []);
+  const refreshData = useCallback(async () => {
+    await refresh();
+  }, [refresh]);
 
   const openInvestModal = useCallback((asset: Asset) => {
     setSelectedAssetForInvest(asset);
@@ -46,21 +45,14 @@ export const InvestmentProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setIsInvestModalOpen(false);
   }, []);
 
-  const investInAsset = async (assetId: string, quantity: number): Promise<{ success: boolean; txHash?: string }> => {
+  const investInAsset = async (
+    assetId: string,
+    quantity: number
+  ): Promise<{ success: boolean; txHash?: string }> => {
     try {
-      const userAddress = wallet.address || user.walletAddress;
-      const result = MockInvestmentService.executeInvestment(
-        assetId,
-        quantity,
-        userAddress,
-        user.email
-      );
+      const userAddress = wallet.address || currentUser.walletAddress;
+      const result = await executeInvestment(assetId, quantity, userAddress, currentUser.email);
 
-      // Deduct wallet state in context
-      deductBalance(result.transaction.totalAmount);
-      refreshData();
-
-      // Trigger celebratory confetti effect
       try {
         confetti({
           particleCount: 80,

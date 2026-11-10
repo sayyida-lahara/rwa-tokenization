@@ -1,6 +1,9 @@
 import { type RouteConfig, route, index, layout } from "@react-router/dev/routes";
 
 export default [
+  // BACKEND API (React Router resource route -> SQLite + mocked chain)
+  route("api/*", "routes/api.ts"),
+
   // PUBLIC ROUTES (with PublicLayout)
   layout("routes/_public.tsx", [
     index("routes/_public._index.tsx"),

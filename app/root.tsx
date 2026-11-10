@@ -8,7 +8,17 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import { getBootstrap } from "./server/repository.server";
 import "./app.css";
+
+/**
+ * The root loader hydrates the browser with the current SQLite state. Every
+ * persisted domain object comes from the Node backend; the client never reads
+ * local storage or a chain directly.
+ */
+export async function loader() {
+  return { bootstrap: getBootstrap() };
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -60,9 +70,9 @@ export function HydrateFallback() {
   );
 }
 
-export default function App() {
+export default function App({ loaderData }: Route.ComponentProps) {
   return (
-    <AppProviders>
+    <AppProviders initialData={loaderData.bootstrap}>
       <Outlet />
     </AppProviders>
   );

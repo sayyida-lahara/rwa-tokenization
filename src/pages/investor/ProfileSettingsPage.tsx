@@ -1,29 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useWallet } from '../../context/WalletContext';
+import { useData } from '../../context/DataContext';
 import { useToast } from '../../context/ToastContext';
 import { shortenAddress } from '../../utils/formatters';
 import { User, ShieldCheck, Mail, Phone, Wallet, Save, RefreshCw } from 'lucide-react';
-import { MockAssetService } from '../../services/mockAssetService';
 
 export const ProfileSettingsPage: React.FC = () => {
-  const { user, loginAsRole } = useAuth();
+  const { user } = useAuth();
   const { wallet } = useWallet();
-  const { showSuccess, showInfo } = useToast();
+  const { updateUser, savePreferences, preferences, resetDemoData } = useData();
+  const { showSuccess, showInfo, showError } = useToast();
 
+  const userPrefs = preferences[user.id] || { emailAlerts: true, dividendAlerts: true };
   const [name, setName] = useState(user.name);
   const [phone, setPhone] = useState(user.phone || '+91 98200 12345');
-  const [emailAlerts, setEmailAlerts] = useState(true);
-  const [dividendAlerts, setDividendAlerts] = useState(true);
+  const [emailAlerts, setEmailAlerts] = useState(userPrefs.emailAlerts);
+  const [dividendAlerts, setDividendAlerts] = useState(userPrefs.dividendAlerts);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = (e: React.FormEvent) => {
+  useEffect(() => {
+    setName(user.name);
+    setPhone(user.phone || '+91 98200 12345');
+    setEmailAlerts(userPrefs.emailAlerts);
+    setDividendAlerts(userPrefs.dividendAlerts);
+  }, [user, userPrefs]);
+
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    showSuccess('Settings Updated', 'Investor profile preferences have been persisted.');
+    setIsSaving(true);
+    try {
+      await updateUser(user.id, { name, phone });
+      await savePreferences(user.id, { emailAlerts, dividendAlerts });
+      showSuccess(
+        'Settings Updated',
+        'Investor profile and communication preferences persisted to SQLite.'
+      );
+    } catch (err: any) {
+      showError('Save Failed', err.message || 'Failed to update preferences');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const handleResetData = () => {
-    MockAssetService.resetToDefault();
-    showInfo('Demo Storage Reset', 'Restored initial sample data for assets and ledger.');
+  const handleResetData = async () => {
+    try {
+      await resetDemoData();
+      showInfo('Demo Database Reset', 'Restored initial sample data in SQLite database.');
+    } catch (err: any) {
+      showError('Reset Failed', err.message || 'Failed to reset demo data');
+    }
   };
 
   return (

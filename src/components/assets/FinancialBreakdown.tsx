@@ -89,7 +89,7 @@ export const FinancialBreakdown: React.FC<FinancialBreakdownProps> = ({
           <p className="text-lg font-bold font-display text-emerald-400">
             {((financialInfo.netOperatingIncome / totalValuation) * 100).toFixed(2)}%
           </p>
-          <p className="text-[11px] text-gray-500">Underlying unlevered yield</p>
+          <p className="text-[11px] text-gray-500">Underlying capitalization rate</p>
         </div>
       </div>
     </div>

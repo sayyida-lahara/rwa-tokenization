@@ -5,3 +5,7 @@
 # React Router
 /.react-router/
 /build/
+
+# Local SQLite demo database
+/data/
+/target/

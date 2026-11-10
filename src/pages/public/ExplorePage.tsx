@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import type { FilterState, Asset } from '../../types';
 import { AssetCard } from '../../components/marketplace/AssetCard';
 import { AssetCardList } from '../../components/marketplace/AssetCardList';
@@ -30,8 +30,9 @@ export const ExplorePage: React.FC = () => {
 
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  // Load live assets from service
-  const allAssets = MockAssetService.getAssets();
+  // Load live assets from the backend-hydrated data context
+  const { getAssets } = useData();
+  const allAssets = getAssets();
 
   // Distinct locations for dropdown
   const availableLocations = useMemo(() => {
@@ -117,8 +118,6 @@ export const ExplorePage: React.FC = () => {
             return b.tokenPrice - a.tokenPrice;
           case 'highest_valuation':
             return b.totalValuation - a.totalValuation;
-          case 'highest_yield':
-            return b.expectedYield - a.expectedYield;
           case 'most_popular':
             return b.fundingProgress - a.fundingProgress;
           case 'recently_listed':

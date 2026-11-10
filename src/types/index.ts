@@ -164,6 +164,77 @@ export interface WalletState {
   walletType: 'phantom' | 'solflare' | 'backpack' | 'demo' | null;
 }
 
+export interface PortfolioHolding extends Holding {
+  asset?: Asset;
+  currentValue: number;
+  gainLoss: number;
+  gainLossPercent: number;
+}
+
+export interface PortfolioSummary {
+  totalPortfolioValue: number;
+  totalInvested: number;
+  totalAssetsOwned: number;
+  totalTokensHeld: number;
+  netGain: number;
+  overallReturnPercent: number;
+  holdings: PortfolioHolding[];
+}
+
+export interface UserPreferences {
+  emailAlerts: boolean;
+  dividendAlerts: boolean;
+}
+
+export interface MarketplaceSettings {
+  feePercent: number;
+  minOfferingValuation: number;
+  oracleProvider: string;
+  settlementNetwork: string;
+  isTradingPaused: boolean;
+}
+
+export interface ChainReceipt {
+  signature: string;
+  slot: number;
+  confirmationTimeMs: number;
+  cluster: SolanaCluster;
+  programId: string;
+  instruction: string;
+  finality: 'processed' | 'confirmed' | 'finalized';
+}
+
+export interface ChainInfo {
+  programId: string;
+  cluster: SolanaCluster;
+  network: string;
+  explorerBaseUrl: string;
+}
+
+export interface AppBootstrap {
+  assets: Asset[];
+  users: User[];
+  currentUser: User;
+  wallet: WalletState;
+  holdings: Holding[];
+  transactions: Transaction[];
+  portfolio: PortfolioSummary;
+  watchlistIds: string[];
+  preferences: Record<string, UserPreferences>;
+  marketplace: MarketplaceSettings;
+  chain: ChainInfo;
+  newsletterSubscribers: string[];
+}
+
+export interface InvestmentExecutionResult {
+  asset: Asset;
+  transaction: Transaction;
+  holding: Holding;
+  wallet: WalletState;
+  portfolio: PortfolioSummary;
+  chain: ChainReceipt;
+}
+
 export interface FilterState {
   searchQuery: string;
   category: string;
@@ -174,6 +245,6 @@ export interface FilterState {
   location: string;
   investmentStatus: string;
   verificationStatus: string;
-  sortBy: 'recently_listed' | 'lowest_price' | 'highest_price' | 'highest_valuation' | 'most_popular' | 'highest_yield';
+  sortBy: 'recently_listed' | 'lowest_price' | 'highest_price' | 'highest_valuation' | 'most_popular';
   viewMode: 'grid' | 'list';
 }

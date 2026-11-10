@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import { ShieldCheck, ArrowRight, Check, Terminal, ExternalLink } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 import { SolanaProgramInspector } from './SolanaProgramInspector';
-import { ANCHOR_PROGRAM_ID, SolanaAnchorService } from '../../services/solanaAnchorService';
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -174,7 +173,7 @@ export const Footer: React.FC = () => {
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>
-                AssetX Solana RWA Protocol. Built on Solana Testnet with Anchor Rust smart contracts. All assets, continuous yields, and token balances are simulated for institutional demonstration.
+                AssetX Solana RWA Protocol. Built on Solana Testnet with Anchor Rust smart contracts. All assets and token balances are simulated for institutional demonstration.
               </span>
             </div>
             <p>© 2026 AssetX Protocol Ltd. All rights reserved.</p>

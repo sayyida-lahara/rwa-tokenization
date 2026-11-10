@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
 import { StatCard } from '../../components/dashboard/StatCard';
 import { formatCurrency, formatNumber, formatDate } from '../../utils/formatters';
@@ -17,7 +17,7 @@ import {
 
 export const IssuerDashboardPage: React.FC = () => {
   const { user } = useAuth();
-  const allAssets = MockAssetService.getAssets();
+  const { assets: allAssets } = useData();
 
   // Filter assets associated with issuer or show all submitted
   const submittedAssets = allAssets;

@@ -1,33 +1,33 @@
 import React, { createContext, useContext, useState } from 'react';
 import type { WalletState, SolanaCluster } from '../types';
-import { MockWalletService } from '../services/mockWalletService';
+import { useData } from './DataContext';
 import { useToast } from './ToastContext';
 import { shortenAddress } from '../utils/formatters';
+
+type WalletType = 'phantom' | 'solflare' | 'backpack' | 'demo';
 
 interface WalletContextType {
   wallet: WalletState;
   isWalletModalOpen: boolean;
   openWalletModal: () => void;
   closeWalletModal: () => void;
-  connect: (type: 'phantom' | 'solflare' | 'backpack' | 'demo') => Promise<void>;
-  disconnect: () => void;
-  switchCluster: (cluster: SolanaCluster) => void;
-  deductBalance: (usdc: number) => void;
+  connect: (type: WalletType) => Promise<void>;
+  disconnect: () => Promise<void>;
+  switchCluster: (cluster: SolanaCluster) => Promise<void>;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
 
 export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [wallet, setWallet] = useState<WalletState>(() => MockWalletService.getWallet());
+  const { wallet, connectWallet, disconnectWallet, switchCluster: switchClusterRequest } = useData();
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const { showSuccess, showInfo } = useToast();
 
   const openWalletModal = () => setIsWalletModalOpen(true);
   const closeWalletModal = () => setIsWalletModalOpen(false);
 
-  const connect = async (type: 'phantom' | 'solflare' | 'backpack' | 'demo') => {
-    const updated = await MockWalletService.connect(type);
-    setWallet(updated);
+  const connect = async (type: WalletType) => {
+    const updated = await connectWallet(type);
     setIsWalletModalOpen(false);
 
     const label =
@@ -41,25 +41,18 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     showSuccess(
       'Solana Wallet Connected',
-      `${label} (${shortenAddress(updated.address, 4)}) connected on Solana ${updated.cluster.toUpperCase()}`
+      `${label} (${shortenAddress(updated.address || '', 4)}) connected on Solana ${updated.cluster.toUpperCase()}`
     );
   };
 
-  const disconnect = () => {
-    const updated = MockWalletService.disconnect();
-    setWallet(updated);
+  const disconnect = async () => {
+    await disconnectWallet();
     showInfo('Wallet Disconnected', 'Your Solana wallet has been disconnected.');
   };
 
-  const switchCluster = (cluster: SolanaCluster) => {
-    const updated = MockWalletService.switchCluster(cluster);
-    setWallet(updated);
+  const switchCluster = async (cluster: SolanaCluster) => {
+    await switchClusterRequest(cluster);
     showInfo('Solana Cluster Switched', `Active Solana RPC network: ${cluster}`);
-  };
-
-  const deductBalance = (usdc: number) => {
-    const updated = MockWalletService.deductBalance(usdc);
-    setWallet(updated);
   };
 
   return (
@@ -72,7 +65,6 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         connect,
         disconnect,
         switchCluster,
-        deductBalance,
       }}
     >
       {children}

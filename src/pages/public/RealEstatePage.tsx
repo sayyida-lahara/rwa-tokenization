@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { AssetCard } from '../../components/marketplace/AssetCard';
 import { Building, Home, ShieldCheck, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 
 export const RealEstatePage: React.FC = () => {
-  const allAssets = MockAssetService.getApprovedAssets();
+  const { getApprovedAssets } = useData();
+  const allAssets = getApprovedAssets();
   const realEstateAssets = allAssets.filter(
     (a) => a.category === 'Commercial' || a.category === 'Residential'
   );
@@ -41,8 +42,8 @@ export const RealEstatePage: React.FC = () => {
             </div>
             <div className="h-6 w-[1px] bg-[#22304E]" />
             <div>
-              <span className="block text-emerald-400 font-bold font-display text-base">8.6% - 11.4%</span>
-              <span>Target Annual Yield</span>
+              <span className="block text-emerald-400 font-bold font-display text-base">Grade-A</span>
+              <span>Audited SPVs</span>
             </div>
             <div className="h-6 w-[1px] bg-[#22304E]" />
             <div>

@@ -4,7 +4,7 @@ import { PortfolioPerformanceChart } from '../../components/charts/PortfolioPerf
 import { AssetAllocationChart } from '../../components/charts/AssetAllocationChart';
 import { StatCard } from '../../components/dashboard/StatCard';
 import { formatCurrency, formatPercent } from '../../utils/formatters';
-import { PieChart, TrendingUp, DollarSign, ShieldCheck, BarChart2 } from 'lucide-react';
+import { PieChart, TrendingUp, DollarSign, ShieldCheck, BarChart2, Layers } from 'lucide-react';
 import {
   ResponsiveContainer,
   BarChart,
@@ -54,7 +54,7 @@ export const PortfolioAnalyticsPage: React.FC = () => {
       <div className="pb-4 border-b border-[#1E293B]">
         <h1 className="text-2xl font-bold font-display text-white">Portfolio Analytics</h1>
         <p className="text-xs text-gray-400">
-          In-depth financial performance, category diversification, and yield projections
+          In-depth financial performance, category diversification, and asset valuation trajectory
         </p>
       </div>
 
@@ -78,22 +78,17 @@ export const PortfolioAnalyticsPage: React.FC = () => {
         />
 
         <StatCard
-          label="Projected Annual Yield"
-          value={formatCurrency(
-            portfolio.holdings.reduce(
-              (acc, h) => acc + (h.currentValue * (h.asset?.expectedYield || 10)) / 100,
-              0
-            )
-          )}
-          subValue="Estimated cash flow / yr"
-          icon={<TrendingUp className="w-5 h-5 text-emerald-400" />}
+          label="Active Holdings"
+          value={`${portfolio.holdings.length} Assets`}
+          subValue="Diversified portfolio"
+          icon={<Layers className="w-5 h-5 text-emerald-400" />}
         />
 
         <StatCard
-          label="Weighted Avg. Yield"
-          value="10.8% APY"
-          subValue="Across 3 asset categories"
-          icon={<ShieldCheck className="w-5 h-5 text-purple-400" />}
+          label="Unrealized Capital Gain"
+          value={formatCurrency(Math.max(0, portfolio.totalPortfolioValue - portfolio.totalInvested))}
+          subValue="Valuation appreciation"
+          icon={<TrendingUp className="w-5 h-5 text-purple-400" />}
         />
       </div>
 

@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { Modal } from '../common/Modal';
 import { useWallet } from '../../context/WalletContext';
 import { ShieldCheck, Check, ArrowRight, Zap, ExternalLink, Copy, Globe, RefreshCw } from 'lucide-react';
-import { formatCurrency, shortenAddress } from '../../utils/formatters';
-import { SOLANA_CLUSTERS, SolanaAnchorService } from '../../services/solanaAnchorService';
+import {
+  formatCurrency,
+  shortenAddress,
+  getSolanaExplorerUrl,
+  getSolscanUrl,
+} from '../../utils/formatters';
 import type { SolanaCluster } from '../../types';
 
 export const WalletModal: React.FC = () => {
@@ -104,7 +108,7 @@ export const WalletModal: React.FC = () => {
             {/* Explorer Links */}
             <div className="pt-2 flex items-center justify-between text-xs border-t border-[#1E293B]">
               <a
-                href={SolanaAnchorService.getExplorerUrl(wallet.address || '', 'address', wallet.cluster)}
+                href={getSolanaExplorerUrl(wallet.address || '', 'address', wallet.cluster)}
                 target="_blank"
                 rel="noreferrer"
                 className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
@@ -113,7 +117,7 @@ export const WalletModal: React.FC = () => {
                 <ExternalLink className="w-3 h-3" />
               </a>
               <a
-                href={SolanaAnchorService.getSolscanUrl(wallet.address || '', 'account', wallet.cluster)}
+                href={getSolscanUrl(wallet.address || '', 'account', wallet.cluster)}
                 target="_blank"
                 rel="noreferrer"
                 className="text-gray-400 hover:text-white flex items-center gap-1 transition-colors"

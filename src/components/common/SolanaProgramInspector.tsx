@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal } from './Modal';
-import { SolanaAnchorService, ANCHOR_PROGRAM_ID } from '../../services/solanaAnchorService';
+import { useData } from '../../context/DataContext';
 import idl from '../../idl/assetx_rwa.json';
 import {
   Cpu,
@@ -16,7 +16,42 @@ import {
   Terminal,
   CheckCircle2,
 } from 'lucide-react';
-import { shortenAddress } from '../../utils/formatters';
+import { shortenAddress, getSolanaExplorerUrl, getSolscanUrl } from '../../utils/formatters';
+
+function deriveAssetOfferingPDA(assetId: string) {
+  return {
+    pda: `AstOff${assetId.replace(/[^a-zA-Z0-9]/g, '').padEnd(38, '1')}`.substring(0, 44),
+    bump: 255,
+  };
+}
+
+function deriveTokenVaultPDA(assetId: string) {
+  return {
+    pda: `TknVlt${assetId.replace(/[^a-zA-Z0-9]/g, '').padEnd(38, '2')}`.substring(0, 44),
+    bump: 253,
+  };
+}
+
+function deriveInvestorPositionPDA(assetId: string, investorPubkey: string) {
+  return {
+    pda: `InvPos${assetId.substring(0, 6)}${investorPubkey.substring(0, 6)}1111111111111111111111111111`.substring(0, 44),
+    bump: 251,
+  };
+}
+
+function deriveDividendVaultPDA(assetId: string) {
+  return {
+    pda: `DivVlt${assetId.replace(/[^a-zA-Z0-9]/g, '').padEnd(38, '3')}`.substring(0, 44),
+    bump: 252,
+  };
+}
+
+function deriveMarketplaceConfigPDA() {
+  return {
+    pda: 'MktCfg111111111111111111111111111111111111',
+    bump: 254,
+  };
+}
 
 interface SolanaProgramInspectorProps {
   isOpen: boolean;
@@ -29,6 +64,7 @@ export const SolanaProgramInspector: React.FC<SolanaProgramInspectorProps> = ({
   onClose,
   initialTab = 'overview',
 }) => {
+  const { chain } = useData();
   const [activeTab, setActiveTab] = useState<'overview' | 'instructions' | 'pda' | 'rust'>(initialTab);
   const [selectedInstruction, setSelectedInstruction] = useState<string>(idl.instructions[3].name); // default investTokens
   const [selectedRustFile, setSelectedRustFile] = useState<string>('lib.rs');
@@ -42,14 +78,15 @@ export const SolanaProgramInspector: React.FC<SolanaProgramInspectorProps> = ({
     setTimeout(() => setCopiedText(null), 2000);
   };
 
-  const activeCluster = SolanaAnchorService.getActiveCluster();
+  const programId = chain?.programId || 'AsstX11111111111111111111111111111111111111';
+  const cluster = chain?.cluster || 'testnet';
 
   // Derived PDAs for interactive calculator
-  const assetOfferingPda = SolanaAnchorService.deriveAssetOfferingPDA(testAssetId);
-  const tokenVaultPda = SolanaAnchorService.deriveTokenVaultPDA(testAssetId);
-  const investorPositionPda = SolanaAnchorService.deriveInvestorPositionPDA(testAssetId, testInvestorKey);
-  const dividendVaultPda = SolanaAnchorService.deriveDividendVaultPDA(testAssetId);
-  const marketplaceConfigPda = SolanaAnchorService.deriveMarketplaceConfigPDA();
+  const assetOfferingPda = deriveAssetOfferingPDA(testAssetId);
+  const tokenVaultPda = deriveTokenVaultPDA(testAssetId);
+  const investorPositionPda = deriveInvestorPositionPDA(testAssetId, testInvestorKey);
+  const dividendVaultPda = deriveDividendVaultPDA(testAssetId);
+  const marketplaceConfigPda = deriveMarketplaceConfigPDA();
 
   const currentInstr = idl.instructions.find((i) => i.name === selectedInstruction) || idl.instructions[0];
 
@@ -65,7 +102,7 @@ pub mod instructions;
 use instructions::*;
 use state::{AssetCategory, VerificationStatus};
 
-declare_id!("${ANCHOR_PROGRAM_ID}");
+declare_id!("${programId}");
 
 #[program]
 pub mod assetx_rwa {
@@ -411,7 +448,7 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
                 Solana Anchor Program Inspector
               </h3>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 uppercase">
-                {activeCluster.name}
+                {cluster}
               </span>
             </div>
             <p className="text-xs text-gray-400">
@@ -429,10 +466,10 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
             <span className="text-[10px] uppercase font-mono text-gray-400">Program ID (Anchor)</span>
             <div className="flex items-center gap-2 mt-0.5">
               <span className="text-xs font-mono text-cyan-300 font-semibold break-all select-all">
-                {ANCHOR_PROGRAM_ID}
+                {programId}
               </span>
               <button
-                onClick={() => handleCopy(ANCHOR_PROGRAM_ID, 'programId')}
+                onClick={() => handleCopy(programId, 'programId')}
                 className="text-gray-400 hover:text-white p-1 rounded hover:bg-[#151D30] transition-colors"
                 title="Copy Program ID"
               >
@@ -443,16 +480,16 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
 
           <div className="flex items-center gap-2 shrink-0">
             <a
-              href={SolanaAnchorService.getExplorerUrl(ANCHOR_PROGRAM_ID, 'address', activeCluster.cluster)}
+              href={getSolanaExplorerUrl(programId, 'address', cluster)}
               target="_blank"
               rel="noreferrer"
               className="px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-cyan-300 border border-cyan-500/30 text-xs font-medium flex items-center gap-1.5 transition-colors"
             >
-              <span>Explorer (Testnet)</span>
+              <span>Explorer ({cluster})</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
             <a
-              href={SolanaAnchorService.getSolscanUrl(ANCHOR_PROGRAM_ID, 'account', activeCluster.cluster)}
+              href={getSolscanUrl(programId, 'account', cluster)}
               target="_blank"
               rel="noreferrer"
               className="px-3 py-1.5 rounded-lg bg-[#151D30] hover:bg-[#1E293B] text-gray-300 hover:text-white border border-[#22304E] text-xs font-medium flex items-center gap-1.5 transition-colors"
@@ -536,11 +573,11 @@ pub fn handler(ctx: Context<DistributeYield>, usdc_amount: u64) -> Result<()> {
               </div>
 
               <div className="p-3.5 rounded-xl bg-[#0F1626] border border-[#1E293B] space-y-1">
-                <span className="text-gray-400">Yield Engine</span>
+                <span className="text-gray-400">Settlement Engine</span>
                 <p className="text-emerald-400 font-semibold text-sm">
-                  O(1) Continuous Scaled Index
+                  Atomic Escrow Verification
                 </p>
-                <span className="text-[10px] text-gray-500">Constant time rental dividend payouts scaled by 1e12</span>
+                <span className="text-[10px] text-gray-500">Constant time settlement and programmatic compliance</span>
               </div>
 
               <div className="p-3.5 rounded-xl bg-[#0F1626] border border-[#1E293B] space-y-1">

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { MockAssetService } from '../../services/mockAssetService';
-import { MockAuthService } from '../../services/mockAuthService';
+import { useData } from '../../context/DataContext';
 import { StatCard } from '../../components/dashboard/StatCard';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
 import {
@@ -16,8 +15,7 @@ import {
 } from 'lucide-react';
 
 export const AdminDashboardPage: React.FC = () => {
-  const assets = MockAssetService.getAssets();
-  const users = MockAuthService.getUsers();
+  const { assets, users, marketplace } = useData();
 
   const pendingAssets = assets.filter(
     (a) => a.verificationStatus === 'Pending Verification' || a.verificationStatus === 'Under Review'
@@ -81,7 +79,7 @@ export const AdminDashboardPage: React.FC = () => {
         <StatCard
           label="Total Token Supply"
           value={formatNumber(totalTokens)}
-          subValue="ERC-3643 Standard"
+          subValue="Solana Token-2022"
           icon={<Coins className="w-5 h-5 text-purple-400" />}
           iconColor="bg-purple-500/10 border-purple-500/30"
         />
@@ -179,19 +177,29 @@ export const AdminDashboardPage: React.FC = () => {
           <div className="space-y-3 text-xs">
             <div className="p-3 rounded-xl bg-[#0F1626] border border-[#1E293B] flex justify-between items-center">
               <span className="text-gray-400">Protocol Transaction Fee</span>
-              <span className="font-mono text-cyan-300 font-bold">0.50%</span>
+              <span className="font-mono text-cyan-300 font-bold">
+                {marketplace.feePercent.toFixed(2)}%
+              </span>
             </div>
             <div className="p-3 rounded-xl bg-[#0F1626] border border-[#1E293B] flex justify-between items-center">
-              <span className="text-gray-400">Primary Settlement Chain</span>
-              <span className="font-semibold text-purple-400">Polygon PoS</span>
+              <span className="text-gray-400">Primary Settlement Network</span>
+              <span className="font-semibold text-purple-400">{marketplace.settlementNetwork}</span>
             </div>
             <div className="p-3 rounded-xl bg-[#0F1626] border border-[#1E293B] flex justify-between items-center">
               <span className="text-gray-400">KYC/AML Oracle Provider</span>
-              <span className="font-semibold text-emerald-400">Securitize ONCHAINID</span>
+              <span className="font-semibold text-emerald-400 truncate max-w-[180px] text-right">
+                {marketplace.oracleProvider}
+              </span>
             </div>
             <div className="p-3 rounded-xl bg-[#0F1626] border border-[#1E293B] flex justify-between items-center">
-              <span className="text-gray-400">Treasury Multi-Sig Vault</span>
-              <span className="font-mono text-gray-300">3-of-5 Institutional Keys</span>
+              <span className="text-gray-400">Trading State</span>
+              <span
+                className={`font-mono font-bold ${
+                  marketplace.isTradingPaused ? 'text-rose-400' : 'text-emerald-400'
+                }`}
+              >
+                {marketplace.isTradingPaused ? 'PAUSED' : 'ACTIVE'}
+              </span>
             </div>
           </div>
         </div>

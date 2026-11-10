@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import type { Transaction } from '../../types';
-import { formatCurrency, formatDateTime, shortenAddress } from '../../utils/formatters';
+import {
+  formatCurrency,
+  formatDateTime,
+  shortenAddress,
+  getSolanaExplorerUrl,
+} from '../../utils/formatters';
 import { Copy, Check, ArrowDownLeft, ArrowUpRight, DollarSign, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router';
-import { SolanaAnchorService } from '../../services/solanaAnchorService';
 
 interface RecentTransactionsTableProps {
   transactions: Transaction[];
@@ -117,7 +121,7 @@ export const RecentTransactionsTable: React.FC<RecentTransactionsTableProps> = (
                           )}
                         </button>
                         <a
-                          href={SolanaAnchorService.getExplorerUrl(sig, 'tx', cluster)}
+                          href={getSolanaExplorerUrl(sig, 'tx', cluster)}
                           target="_blank"
                           rel="noreferrer"
                           className="text-gray-500 hover:text-cyan-300 transition-colors"

@@ -1,28 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useToast } from '../../context/ToastContext';
+import { useData } from '../../context/DataContext';
 import { Sliders, ShieldCheck, DollarSign, Cpu, AlertTriangle, Save, RefreshCw } from 'lucide-react';
-import { MockAssetService } from '../../services/mockAssetService';
 
 export const MarketplaceManagementPage: React.FC = () => {
-  const { showSuccess, showWarning, showInfo } = useToast();
-  const [feePercent, setFeePercent] = useState<number>(0.5);
-  const [minOfferingValuation, setMinOfferingValuation] = useState<number>(1000000);
-  const [oracleProvider, setOracleProvider] = useState('Securitize ONCHAINID Oracle');
-  const [settlementNetwork, setSettlementNetwork] = useState('Polygon PoS Mainnet');
-  const [isTradingPaused, setIsTradingPaused] = useState(false);
+  const { marketplace, saveMarketplaceSettings } = useData();
+  const { showSuccess, showWarning, showError } = useToast();
 
-  const handleSave = (e: React.FormEvent) => {
+  const [feePercent, setFeePercent] = useState<number>(marketplace.feePercent);
+  const [minOfferingValuation, setMinOfferingValuation] = useState<number>(marketplace.minOfferingValuation);
+  const [oracleProvider, setOracleProvider] = useState(marketplace.oracleProvider);
+  const [settlementNetwork, setSettlementNetwork] = useState(marketplace.settlementNetwork);
+  const [isTradingPaused, setIsTradingPaused] = useState(marketplace.isTradingPaused);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    setFeePercent(marketplace.feePercent);
+    setMinOfferingValuation(marketplace.minOfferingValuation);
+    setOracleProvider(marketplace.oracleProvider);
+    setSettlementNetwork(marketplace.settlementNetwork);
+    setIsTradingPaused(marketplace.isTradingPaused);
+  }, [marketplace]);
+
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    showSuccess('Protocol Settings Saved', 'Marketplace parameters and fee rates have been updated on-chain.');
+    setIsSaving(true);
+    try {
+      await saveMarketplaceSettings({
+        feePercent,
+        minOfferingValuation,
+        oracleProvider,
+        settlementNetwork,
+        isTradingPaused,
+      });
+      showSuccess(
+        'Protocol Settings Saved',
+        'Marketplace parameters and fee rates have been updated in SQLite & simulated chain.'
+      );
+    } catch (err: any) {
+      showError('Save Failed', err.message || 'Failed to save settings');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const handleToggleEmergencyPause = () => {
+  const handleToggleEmergencyPause = async () => {
     const newState = !isTradingPaused;
     setIsTradingPaused(newState);
-    if (newState) {
-      showWarning('Emergency Pause Activated', 'New token investments temporarily restricted.');
-    } else {
-      showSuccess('Marketplace Resumed', 'All investment orders and trading active.');
+    try {
+      await saveMarketplaceSettings({
+        feePercent,
+        minOfferingValuation,
+        oracleProvider,
+        settlementNetwork,
+        isTradingPaused: newState,
+      });
+      if (newState) {
+        showWarning('Emergency Pause Activated', 'New token investments temporarily restricted.');
+      } else {
+        showSuccess('Marketplace Resumed', 'All investment orders and trading active.');
+      }
+    } catch (err: any) {
+      setIsTradingPaused(!newState);
+      showError('Pause Toggle Failed', err.message || 'Failed to toggle pause');
     }
   };
 
@@ -100,9 +140,10 @@ export const MarketplaceManagementPage: React.FC = () => {
                 onChange={(e) => setSettlementNetwork(e.target.value)}
                 className="w-full bg-[#0F1626] border border-[#22304E] rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-cyan-400"
               >
-                <option value="Polygon PoS Mainnet">Polygon PoS Mainnet</option>
-                <option value="Ethereum Mainnet">Ethereum Mainnet (L1)</option>
-                <option value="Arbitrum One Rollup">Arbitrum One Rollup</option>
+                <option value="Solana Mainnet Beta">Solana Mainnet Beta</option>
+                <option value="Solana Testnet">Solana Testnet</option>
+                <option value="Solana Devnet">Solana Devnet</option>
+                <option value="Solana Localnet">Solana Localnet</option>
               </select>
             </div>
 

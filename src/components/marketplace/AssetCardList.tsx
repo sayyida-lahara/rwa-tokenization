@@ -82,10 +82,9 @@ export const AssetCardList: React.FC<AssetCardListProps> = ({ asset }) => {
         </div>
 
         <div className="text-left md:text-right">
-          <span className="text-[11px] text-gray-400 block">Yield</span>
-          <span className="text-sm font-bold text-emerald-400 font-display flex items-center gap-1">
-            <TrendingUp className="w-3.5 h-3.5" />
-            {asset.expectedYield}%
+          <span className="text-[11px] text-gray-400 block">Available</span>
+          <span className="text-sm font-semibold text-emerald-400 font-mono">
+            {formatNumber(asset.availableTokens)}
           </span>
         </div>
 

@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { useWatchlist } from '../../context/WatchlistContext';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { AssetCard } from '../../components/marketplace/AssetCard';
 import { Bookmark, ArrowRight, Trash2 } from 'lucide-react';
 
 export const WatchlistPage: React.FC = () => {
-  const { watchlistIds, removeFromWatchlist } = useWatchlist();
-  const allAssets = MockAssetService.getAssets();
+  const { watchlistIds } = useWatchlist();
+  const { getAssets } = useData();
+  const allAssets = getAssets();
 
   const savedAssets = allAssets.filter((a) => watchlistIds.includes(a.id));
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
 import { Clock, CheckCircle2, XCircle, ShieldCheck, MessageSquare, ArrowRight } from 'lucide-react';
 
 export const AssetSubmissionStatusPage: React.FC = () => {
-  const assets = MockAssetService.getAssets();
+  const { assets } = useData();
 
   return (
     <div className="space-y-6">
@@ -92,8 +92,8 @@ export const AssetSubmissionStatusPage: React.FC = () => {
                   </span>
                 </div>
                 <div>
-                  <span className="text-gray-400 block text-[11px]">Target Yield</span>
-                  <span className="text-emerald-400 font-bold">{asset.expectedYield}% APY</span>
+                  <span className="text-gray-400 block text-[11px]">Minimum Ticket</span>
+                  <span className="text-emerald-400 font-bold">${asset.minimumInvestment}</span>
                 </div>
               </div>
 

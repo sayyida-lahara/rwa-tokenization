@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { MockAssetService } from '../../services/mockAssetService';
+import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import {
@@ -23,11 +23,13 @@ import {
 export const TokenizeAssetWizard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { submitAsset } = useData();
   const { showSuccess, showError } = useToast();
 
   const [step, setStep] = useState<number>(1);
   const [submissionSuccess, setSubmissionSuccess] = useState<boolean>(false);
   const [submissionId, setSubmissionId] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Form State
   const [name, setName] = useState('World Trade Center Tower C');
@@ -56,7 +58,6 @@ export const TokenizeAssetWizard: React.FC = () => {
   const [tokenPrice, setTokenPrice] = useState<number>(50);
   const [totalTokenSupply, setTotalTokenSupply] = useState<number>(560000);
   const [minimumInvestment, setMinimumInvestment] = useState<number>(100);
-  const [expectedYield, setExpectedYield] = useState<number>(11.5);
 
   // Documents
   const [uploadedFiles, setUploadedFiles] = useState<DueDiligenceDoc[]>([
@@ -112,62 +113,68 @@ export const TokenizeAssetWizard: React.FC = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!name || !city || totalValuation <= 0 || tokenPrice <= 0) {
       showError('Validation Error', 'Please ensure all required fields are filled.');
       return;
     }
 
-    // Combine primary gallery photos with any image files uploaded in Step 3
-    const propertyImageDocs = uploadedFiles
-      .filter((f) => f.type === 'Property Images' && f.previewUrl)
-      .map((f) => f.previewUrl as string);
-    const finalImages = Array.from(new Set([...images, ...propertyImageDocs]));
+    setIsSubmitting(true);
+    try {
+      // Combine primary gallery photos with any image files uploaded in Step 3
+      const propertyImageDocs = uploadedFiles
+        .filter((f) => f.type === 'Property Images' && f.previewUrl)
+        .map((f) => f.previewUrl as string);
+      const finalImages = Array.from(new Set([...images, ...propertyImageDocs]));
 
-    const newAsset = MockAssetService.submitAsset({
-      name,
-      category,
-      totalValuation,
-      tokenPrice,
-      totalTokenSupply,
-      minimumInvestment,
-      expectedYield,
-      description,
-      images: finalImages.length > 0 ? finalImages : undefined,
-      location: {
-        address,
-        city,
-        state,
-        country,
-        flag: country === 'India' ? '🇮🇳' : country === 'Switzerland' ? '🇨🇭' : '🌐',
-      },
-      ownership: {
-        issuerName,
-        entityName: legalEntity,
-        structure,
-        registrationNumber: `CIN-U${Math.floor(100000 + Math.random() * 900000)}`,
-        country,
-        supportingInfo,
-      },
-      documents: uploadedFiles.map((f, idx) => ({
-        id: f.id || `doc-${Date.now()}-${idx}`,
-        name: f.name,
-        type: f.name.toLowerCase().endsWith('.pdf')
-          ? 'PDF'
-          : f.name.toLowerCase().match(/\.(jpg|jpeg|png)$/)
-          ? 'JPG'
-          : 'PDF',
-        size: f.size,
-        verifiedDate: f.verifiedDate || new Date().toISOString().split('T')[0],
-        url: f.url || '#',
-      })),
-      submittedBy: user.email,
-    });
+      await submitAsset({
+        name,
+        category,
+        totalValuation,
+        tokenPrice,
+        totalTokenSupply,
+        minimumInvestment,
+        description,
+        images: finalImages.length > 0 ? finalImages : undefined,
+        location: {
+          address,
+          city,
+          state,
+          country,
+          flag: country === 'India' ? '🇮🇳' : country === 'Switzerland' ? '🇨🇭' : '🌐',
+        },
+        ownership: {
+          issuerName,
+          entityName: legalEntity,
+          structure,
+          registrationNumber: `CIN-U${Math.floor(100000 + Math.random() * 900000)}`,
+          country,
+          supportingInfo,
+        },
+        documents: uploadedFiles.map((f, idx) => ({
+          id: f.id || `doc-${Date.now()}-${idx}`,
+          name: f.name,
+          type: f.name.toLowerCase().endsWith('.pdf')
+            ? 'PDF'
+            : f.name.toLowerCase().match(/\.(jpg|jpeg|png)$/)
+            ? 'JPG'
+            : 'PDF',
+          size: f.size,
+          verifiedDate: f.verifiedDate || new Date().toISOString().split('T')[0],
+          url: f.url || '#',
+        })),
+        submittedBy: user.email,
+      });
 
-    const subId = `RWA-SUB-${Math.floor(100000 + Math.random() * 900000)}`;
-    setSubmissionId(subId);
-    setSubmissionSuccess(true);
-    showSuccess('Asset Submitted', `Asset placed in "Pending Verification" with ID: ${subId}`);
+      const subId = `RWA-SUB-${Math.floor(100000 + Math.random() * 900000)}`;
+      setSubmissionId(subId);
+      setSubmissionSuccess(true);
+      showSuccess('Asset Submitted', `Asset placed in "Pending Verification" with ID: ${subId}`);
+    } catch (err: any) {
+      showError('Submission Failed', err.message || 'Failed to submit asset offering');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submissionSuccess) {
@@ -417,19 +424,6 @@ export const TokenizeAssetWizard: React.FC = () => {
                   className="w-full bg-[#0F1626] border border-[#22304E] rounded-xl px-4 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-cyan-400"
                 />
               </div>
-
-              <div>
-                <label className="text-xs font-semibold text-gray-300 block mb-1.5">
-                  Target Annual Yield (% APY)
-                </label>
-                <input
-                  type="number"
-                  step={0.1}
-                  value={expectedYield}
-                  onChange={(e) => setExpectedYield(Number(e.target.value))}
-                  className="w-full bg-[#0F1626] border border-[#22304E] rounded-xl px-4 py-2.5 text-sm text-emerald-400 font-mono focus:outline-none focus:border-cyan-400"
-                />
-              </div>
             </div>
 
             <div className="p-4 rounded-xl bg-[#0F1626] border border-[#1E293B] space-y-1.5 text-xs">
@@ -539,10 +533,6 @@ export const TokenizeAssetWizard: React.FC = () => {
                   </span>
                 </div>
                 <div>
-                  <span className="text-gray-400 block">Target APY</span>
-                  <span className="text-emerald-400 font-semibold">{expectedYield}%</span>
-                </div>
-                <div>
                   <span className="text-gray-400 block">Audited Documents Attached</span>
                   <span className="text-white font-semibold">{uploadedFiles.length} files</span>
                 </div>
@@ -623,10 +613,11 @@ export const TokenizeAssetWizard: React.FC = () => {
             <button
               type="button"
               onClick={handleSubmit}
-              className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-500 hover:opacity-95 text-white text-xs font-bold shadow-lg shadow-emerald-500/25 transition-all"
+              disabled={isSubmitting}
+              className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-500 hover:opacity-95 text-white text-xs font-bold shadow-lg shadow-emerald-500/25 transition-all disabled:opacity-50"
             >
               <CheckCircle2 className="w-4 h-4" />
-              <span>Submit Asset for Verification</span>
+              <span>{isSubmitting ? 'Submitting to Backend...' : 'Submit Asset for Verification'}</span>
             </button>
           )}
         </div>

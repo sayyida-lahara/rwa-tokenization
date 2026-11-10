@@ -1,51 +1,45 @@
-import React, { createContext, useContext, useState } from 'react';
-import { getStorageItem, setStorageItem } from '../utils/storage';
+import React, { createContext, useContext } from 'react';
+import { useData } from './DataContext';
 import { useToast } from './ToastContext';
-import { MockAssetService } from '../services/mockAssetService';
-
-const WATCHLIST_STORAGE_KEY = 'assetx_watchlist_v2';
-const DEFAULT_WATCHLIST = ['asset-1', 'asset-2', 'asset-6'];
 
 interface WatchlistContextType {
   watchlistIds: string[];
   isInWatchlist: (assetId: string) => boolean;
-  toggleWatchlist: (assetId: string) => void;
-  removeFromWatchlist: (assetId: string) => void;
+  toggleWatchlist: (assetId: string) => Promise<void>;
+  removeFromWatchlist: (assetId: string) => Promise<void>;
 }
 
 const WatchlistContext = createContext<WatchlistContextType | undefined>(undefined);
 
 export const WatchlistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [watchlistIds, setWatchlistIds] = useState<string[]>(() =>
-    getStorageItem<string[]>(WATCHLIST_STORAGE_KEY, DEFAULT_WATCHLIST)
-  );
+  const {
+    watchlistIds,
+    assets,
+    toggleWatchlist: toggleWatchlistRequest,
+    removeFromWatchlist: removeFromWatchlistRequest,
+  } = useData();
   const { showSuccess, showInfo } = useToast();
 
   const isInWatchlist = (assetId: string) => watchlistIds.includes(assetId);
 
-  const toggleWatchlist = (assetId: string) => {
-    const asset = MockAssetService.getAssetById(assetId);
-    const assetName = asset?.name || 'Asset';
+  const assetNameFor = (assetId: string) =>
+    assets.find((asset) => asset.id === assetId)?.name || 'Asset';
 
-    if (watchlistIds.includes(assetId)) {
-      const updated = watchlistIds.filter((id) => id !== assetId);
-      setWatchlistIds(updated);
-      setStorageItem(WATCHLIST_STORAGE_KEY, updated);
+  const toggleWatchlist = async (assetId: string) => {
+    const assetName = assetNameFor(assetId);
+    const wasSaved = watchlistIds.includes(assetId);
+    await toggleWatchlistRequest(assetId);
+
+    if (wasSaved) {
       showInfo('Removed from Watchlist', `${assetName} removed from your saved assets.`);
     } else {
-      const updated = [...watchlistIds, assetId];
-      setWatchlistIds(updated);
-      setStorageItem(WATCHLIST_STORAGE_KEY, updated);
       showSuccess('Added to Watchlist', `${assetName} saved to your watchlist.`);
     }
   };
 
-  const removeFromWatchlist = (assetId: string) => {
-    const asset = MockAssetService.getAssetById(assetId);
-    const assetName = asset?.name || 'Asset';
-    const updated = watchlistIds.filter((id) => id !== assetId);
-    setWatchlistIds(updated);
-    setStorageItem(WATCHLIST_STORAGE_KEY, updated);
+  const removeFromWatchlist = async (assetId: string) => {
+    const assetName = assetNameFor(assetId);
+    await removeFromWatchlistRequest(assetId);
     showInfo('Removed from Watchlist', `${assetName} removed from your saved assets.`);
   };
 

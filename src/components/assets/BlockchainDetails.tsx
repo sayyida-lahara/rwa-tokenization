@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import type { BlockchainInfo } from '../../types';
 import { Copy, Check, ShieldCheck, Cpu, ExternalLink, Code2, Database } from 'lucide-react';
-import { shortenAddress } from '../../utils/formatters';
-import { SolanaAnchorService } from '../../services/solanaAnchorService';
+import { shortenAddress, getSolanaExplorerUrl } from '../../utils/formatters';
 
 interface BlockchainDetailsProps {
   blockchainInfo: BlockchainInfo;
@@ -80,7 +79,7 @@ export const BlockchainDetails: React.FC<BlockchainDetailsProps> = ({
                 <span>{copiedField === 'programId' ? 'Copied' : 'Copy'}</span>
               </button>
               <a
-                href={SolanaAnchorService.getExplorerUrl(blockchainInfo.programId, 'address', cluster)}
+                href={getSolanaExplorerUrl(blockchainInfo.programId, 'address', cluster)}
                 target="_blank"
                 rel="noreferrer"
                 className="text-[11px] text-gray-400 hover:text-white flex items-center gap-1 transition-colors"
@@ -108,7 +107,7 @@ export const BlockchainDetails: React.FC<BlockchainDetailsProps> = ({
                 <span>{copiedField === 'tokenMint' ? 'Copied' : 'Copy'}</span>
               </button>
               <a
-                href={SolanaAnchorService.getExplorerUrl(blockchainInfo.tokenMint, 'address', cluster)}
+                href={getSolanaExplorerUrl(blockchainInfo.tokenMint, 'address', cluster)}
                 target="_blank"
                 rel="noreferrer"
                 className="text-[11px] text-gray-400 hover:text-white"

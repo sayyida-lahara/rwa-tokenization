@@ -3,10 +3,14 @@ import { Modal } from '../common/Modal';
 import { useInvestment } from '../../context/InvestmentContext';
 import { useWallet } from '../../context/WalletContext';
 import { useAuth } from '../../context/AuthContext';
-import { formatCurrency, formatNumber, shortenAddress } from '../../utils/formatters';
+import {
+  formatCurrency,
+  formatNumber,
+  shortenAddress,
+  getSolanaExplorerUrl,
+} from '../../utils/formatters';
 import { ShieldCheck, Plus, Minus, ArrowRight, CheckCircle2, AlertCircle, Copy, Check, ExternalLink, Zap } from 'lucide-react';
 import { Link } from 'react-router';
-import { SolanaAnchorService } from '../../services/solanaAnchorService';
 
 export const InvestModal: React.FC = () => {
   const { selectedAssetForInvest, isInvestModalOpen, closeInvestModal, investInAsset } = useInvestment();
@@ -85,7 +89,7 @@ export const InvestModal: React.FC = () => {
             <p className="text-xs text-gray-400">
               {step === 'success'
                 ? 'Your simulated blockchain tokens have been credited'
-                : 'Tokenized fractional ownership with automated yield'}
+                : 'Tokenized fractional ownership and instant settlement'}
             </p>
           </div>
         </div>
@@ -106,8 +110,6 @@ export const InvestModal: React.FC = () => {
               <p className="text-xs text-gray-400">{asset.location.city}, {asset.location.country}</p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-[11px] text-cyan-400 font-medium">Token Price: ${asset.tokenPrice}</span>
-                <span className="text-gray-500 text-[11px]">•</span>
-                <span className="text-[11px] text-emerald-400 font-medium">{asset.expectedYield}% APY</span>
               </div>
             </div>
           </div>
@@ -230,12 +232,6 @@ export const InvestModal: React.FC = () => {
               <span className="text-gray-200">Total Investment</span>
               <span className="text-cyan-400 font-display text-base font-bold">
                 {formatCurrency(totalAmount)}
-              </span>
-            </div>
-            <div className="flex justify-between items-center text-[11px] text-emerald-400 pt-1">
-              <span>Estimated Annual Yield</span>
-              <span className="font-bold">
-                ~{formatCurrency((investmentAmount * asset.expectedYield) / 100)} / year
               </span>
             </div>
           </div>
@@ -400,7 +396,7 @@ export const InvestModal: React.FC = () => {
                   {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                 </button>
                 <a
-                  href={SolanaAnchorService.getExplorerUrl(completedTxHash, 'tx', wallet.cluster)}
+                  href={getSolanaExplorerUrl(completedTxHash, 'tx', wallet.cluster)}
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-400 hover:text-white"

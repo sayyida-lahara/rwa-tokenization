@@ -28,9 +28,6 @@ export const SortDropdown: React.FC<SortDropdownProps> = ({ value, onChange }) =
         <option value="highest_valuation" className="bg-[#151D30] text-white">
           Highest Valuation
         </option>
-        <option value="highest_yield" className="bg-[#151D30] text-white">
-          Highest Yield (APY)
-        </option>
         <option value="most_popular" className="bg-[#151D30] text-white">
           Most Popular / Funded
         </option>
