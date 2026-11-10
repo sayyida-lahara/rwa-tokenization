@@ -4,19 +4,21 @@ import { MockAssetService } from '../../services/mockAssetService';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import {
-  Building2,
-  DollarSign,
-  UploadCloud,
-  FileCheck2,
   CheckCircle2,
   ArrowRight,
   ArrowLeft,
   ShieldCheck,
-  FileText,
-  X,
 } from 'lucide-react';
 import type { AssetCategory } from '../../types';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
+import {
+  DocumentDueDiligenceUpload,
+  type DueDiligenceDoc,
+} from './DocumentDueDiligenceUpload';
+import {
+  AssetImageUpload,
+  CATEGORY_PRESET_IMAGES,
+} from './AssetImageUpload';
 
 export const TokenizeAssetWizard: React.FC = () => {
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ export const TokenizeAssetWizard: React.FC = () => {
   // Form State
   const [name, setName] = useState('World Trade Center Tower C');
   const [category, setCategory] = useState<AssetCategory>('Commercial');
+  const [images, setImages] = useState<string[]>(CATEGORY_PRESET_IMAGES.Commercial);
   const [address, setAddress] = useState('Brigade Gateway, Rajajinagar');
   const [city, setCity] = useState('Bangalore');
   const [state, setState] = useState('Karnataka');
@@ -37,6 +40,16 @@ export const TokenizeAssetWizard: React.FC = () => {
   const [description, setDescription] = useState(
     'Prime Grade-A commercial tower featuring 350,000 sq ft leasable area, 97% occupied by multinational software and finance corporations.'
   );
+
+  const handleCategoryChange = (newCat: AssetCategory) => {
+    setCategory(newCat);
+    const isMatchingPreset = Object.values(CATEGORY_PRESET_IMAGES).some(
+      (preset) => JSON.stringify(preset) === JSON.stringify(images)
+    );
+    if (images.length === 0 || isMatchingPreset) {
+      setImages(CATEGORY_PRESET_IMAGES[newCat] || CATEGORY_PRESET_IMAGES.Commercial);
+    }
+  };
 
   // Valuation
   const [totalValuation, setTotalValuation] = useState<number>(28000000);
@@ -46,12 +59,34 @@ export const TokenizeAssetWizard: React.FC = () => {
   const [expectedYield, setExpectedYield] = useState<number>(11.5);
 
   // Documents
-  const [uploadedFiles, setUploadedFiles] = useState<
-    Array<{ name: string; type: string; size: string }>
-  >([
-    { name: 'CBRE_Appraisal_Report_2026.pdf', type: 'Valuation Certificate', size: '5.2 MB' },
-    { name: 'SPV_Registration_Articles.pdf', type: 'Legal Documentation', size: '3.1 MB' },
-    { name: 'Title_Search_Report.pdf', type: 'Ownership Documents', size: '2.8 MB' },
+  const [uploadedFiles, setUploadedFiles] = useState<DueDiligenceDoc[]>([
+    {
+      id: 'doc-init-1',
+      name: 'CBRE_Appraisal_Report_2026.pdf',
+      type: 'Valuation Certificate',
+      size: '5.2 MB',
+      verifiedDate: '2026-02-01',
+      hash: '0x7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069',
+      url: '#',
+    },
+    {
+      id: 'doc-init-2',
+      name: 'SPV_Registration_Articles.pdf',
+      type: 'Legal Documentation',
+      size: '3.1 MB',
+      verifiedDate: '2026-02-01',
+      hash: '0x185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969',
+      url: '#',
+    },
+    {
+      id: 'doc-init-3',
+      name: 'Title_Search_Report.pdf',
+      type: 'Ownership Documents',
+      size: '2.8 MB',
+      verifiedDate: '2026-02-01',
+      hash: '0x3f79bb7b435b05321651daefd374cd681b61935c13e0e20b1180df7aef809c99',
+      url: '#',
+    },
   ]);
 
   // Ownership
@@ -77,33 +112,17 @@ export const TokenizeAssetWizard: React.FC = () => {
     }
   };
 
-  const handleAddMockFile = (docType: string) => {
-    const mockNames = {
-      'Property Images': 'Site_Drone_HighRes_01.jpg',
-      'Ownership Documents': 'Registry_Encumbrance_NOC.pdf',
-      'Valuation Certificate': 'Independent_RICS_Appraisal.pdf',
-      'Legal Documentation': 'Statutory_Compliance_Audit.pdf',
-    }[docType] || 'Verification_Document.pdf';
-
-    const newDoc = {
-      name: mockNames,
-      type: docType,
-      size: `${(Math.random() * 4 + 1).toFixed(1)} MB`,
-    };
-
-    setUploadedFiles((prev) => [...prev, newDoc]);
-    showSuccess('File Uploaded', `${mockNames} added to submission bundle`);
-  };
-
-  const handleRemoveFile = (index: number) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
-  };
-
   const handleSubmit = () => {
     if (!name || !city || totalValuation <= 0 || tokenPrice <= 0) {
       showError('Validation Error', 'Please ensure all required fields are filled.');
       return;
     }
+
+    // Combine primary gallery photos with any image files uploaded in Step 3
+    const propertyImageDocs = uploadedFiles
+      .filter((f) => f.type === 'Property Images' && f.previewUrl)
+      .map((f) => f.previewUrl as string);
+    const finalImages = Array.from(new Set([...images, ...propertyImageDocs]));
 
     const newAsset = MockAssetService.submitAsset({
       name,
@@ -114,6 +133,7 @@ export const TokenizeAssetWizard: React.FC = () => {
       minimumInvestment,
       expectedYield,
       description,
+      images: finalImages.length > 0 ? finalImages : undefined,
       location: {
         address,
         city,
@@ -129,6 +149,18 @@ export const TokenizeAssetWizard: React.FC = () => {
         country,
         supportingInfo,
       },
+      documents: uploadedFiles.map((f, idx) => ({
+        id: f.id || `doc-${Date.now()}-${idx}`,
+        name: f.name,
+        type: f.name.toLowerCase().endsWith('.pdf')
+          ? 'PDF'
+          : f.name.toLowerCase().match(/\.(jpg|jpeg|png)$/)
+          ? 'JPG'
+          : 'PDF',
+        size: f.size,
+        verifiedDate: f.verifiedDate || new Date().toISOString().split('T')[0],
+        url: f.url || '#',
+      })),
       submittedBy: user.email,
     });
 
@@ -249,7 +281,7 @@ export const TokenizeAssetWizard: React.FC = () => {
                 </label>
                 <select
                   value={category}
-                  onChange={(e) => setCategory(e.target.value as AssetCategory)}
+                  onChange={(e) => handleCategoryChange(e.target.value as AssetCategory)}
                   className="w-full bg-[#0F1626] border border-[#22304E] rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-400"
                 >
                   <option value="Commercial">Commercial Real Estate</option>
@@ -314,6 +346,15 @@ export const TokenizeAssetWizard: React.FC = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full bg-[#0F1626] border border-[#22304E] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-cyan-400 leading-relaxed"
+              />
+            </div>
+
+            {/* Asset Pictures Drag & Drop Showcase */}
+            <div className="pt-2 border-t border-[#1E293B]">
+              <AssetImageUpload
+                images={images}
+                onChange={setImages}
+                category={category}
               />
             </div>
           </div>
@@ -405,55 +446,13 @@ export const TokenizeAssetWizard: React.FC = () => {
         {step === 3 && (
           <div className="space-y-4">
             <p className="text-xs text-gray-300">
-              Upload compliance documents, verified independent appraisal reports, and high-resolution photography.
+              Drag and drop compliance documents, verified independent appraisal reports, title deeds, and high-resolution photography for institutional verification audit.
             </p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {[
-                'Property Images',
-                'Ownership Documents',
-                'Valuation Certificate',
-                'Legal Documentation',
-              ].map((docType) => (
-                <button
-                  key={docType}
-                  type="button"
-                  onClick={() => handleAddMockFile(docType)}
-                  className="p-3 rounded-xl bg-[#0F1626] hover:bg-[#1C2640] border border-[#22304E] hover:border-cyan-500/40 text-center flex flex-col items-center gap-1.5 transition-all text-xs"
-                >
-                  <UploadCloud className="w-5 h-5 text-cyan-400" />
-                  <span className="text-[11px] font-semibold text-gray-200">{docType}</span>
-                  <span className="text-[10px] text-cyan-400">+ Mock Upload</span>
-                </button>
-              ))}
-            </div>
-
-            {/* Uploaded Documents List */}
-            <div className="space-y-2 pt-2">
-              <span className="text-xs font-semibold text-gray-400 block">
-                Attached Files ({uploadedFiles.length})
-              </span>
-              {uploadedFiles.map((f, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between p-3 rounded-xl bg-[#0F1626] border border-[#1E293B] text-xs"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <FileText className="w-4 h-4 text-cyan-400" />
-                    <div>
-                      <p className="font-semibold text-white">{f.name}</p>
-                      <p className="text-[10px] text-gray-400">{f.type} • {f.size}</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => handleRemoveFile(i)}
-                    className="text-gray-400 hover:text-rose-400 p-1"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
+            <DocumentDueDiligenceUpload
+              files={uploadedFiles}
+              onChange={setUploadedFiles}
+            />
           </div>
         )}
 
@@ -560,6 +559,34 @@ export const TokenizeAssetWizard: React.FC = () => {
                   </span>
                 </div>
               </div>
+
+              {/* Asset Media & Cover Preview */}
+              {images.length > 0 && (
+                <div className="pt-3 border-t border-[#1E293B]">
+                  <span className="text-gray-400 block mb-2 font-semibold">
+                    Asset Showcase Photography ({images.length} pictures attached)
+                  </span>
+                  <div className="flex gap-2.5 overflow-x-auto pb-1">
+                    {images.map((img, i) => (
+                      <div
+                        key={i}
+                        className="relative w-20 h-14 rounded-xl overflow-hidden border border-[#22304E] shrink-0 bg-[#0F1626]"
+                      >
+                        <img
+                          src={img}
+                          alt={`Asset picture ${i + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        {i === 0 && (
+                          <span className="absolute bottom-0 inset-x-0 bg-cyan-500 text-[8px] text-black font-extrabold text-center py-0.5">
+                            COVER
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="p-3 rounded-xl bg-blue-900/15 border border-blue-500/30 flex items-start gap-2.5 text-xs text-gray-300">
